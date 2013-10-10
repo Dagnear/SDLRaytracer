@@ -1,0 +1,30 @@
+main                gfx                 tracer
+
+checkargs
+
+init gfx -------->  init screen
+
+                    init layer
+
+init raytracer -----------------------> init vectors 
+
+raytrace params ----------------------> params to vectors
+
+calculate gfx ------------------------> calculate
+
+                                        for each pixel
+                                            -> color
+
+                                        |_-> bitmap
+
+assing bitmap  <----------------------  return bitmap
+
+append to screen -> draw to layer
+
+                    layer to screen
+
+cleanup <---------- listen for exit
+
+exit
+
+
