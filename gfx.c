@@ -1,6 +1,8 @@
 /*
  * SDL functions
  */
+#include "includes.h"
+
 void
 init(char *title)
 {
