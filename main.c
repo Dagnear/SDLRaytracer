@@ -6,6 +6,6 @@
 int
 main(int argc, char **argv)
 {
-    printf("Hello raytrace");
+    printf("Hello raytracer\n");
     return 0;
 }
