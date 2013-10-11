@@ -5,7 +5,7 @@
 #include "defines.h"
 
 void
-init(char *title)
+gfx_init(char *title)
 {
     if(SDL_Init(SDL_INIT_VIDEO) < 0)
     {
@@ -25,7 +25,7 @@ init(char *title)
 }
 
 void
-sdl_cleanup()
+gfx_cleanup()
 {
     SDL_Quit();
 }
