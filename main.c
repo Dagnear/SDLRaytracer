@@ -1,7 +1,7 @@
 /*
  * Minimalistic raytracer
  */
-#include "main.h"
+#include "includes.h"
 
 int
 main(int argc, char **argv)
