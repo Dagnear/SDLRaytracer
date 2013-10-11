@@ -20,6 +20,12 @@ typedef struct
     Vector direction;
 }; Ray;
 
+typedef struct /* Is this a bit redundant? */
+{
+    Vector position;
+    Vector direction;
+}; Camera
+
 typedef struct
 {
     Vector position;
@@ -32,3 +38,15 @@ typedef struct
     void *entity;
 }; Entity;
 
+/* Storing the result in array of pixels */
+typedef struct
+{
+    Uint32 color;
+}; Pixel
+
+typedef struct
+{
+    int w;
+    int h;
+    Pixel *pixels;
+}; Bitmap;
