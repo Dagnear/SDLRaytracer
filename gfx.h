@@ -14,13 +14,15 @@ typedef struct
     int z;
 }; Vector;
 
+/* Ray of 'light' */
 typedef struct
 {
     Vector position;
     Vector direction;
 }; Ray;
 
-typedef struct /* Is this a bit redundant? */
+/* Is this a bit redundant? */
+typedef struct
 {
     Vector position;
     Vector direction;
@@ -32,21 +34,33 @@ typedef struct
     int radius;
 }; Sphere;
 
+/* Possibility for different shapes */
 typedef struct
 {
     int type;
     void *entity;
 }; Entity;
 
-/* Storing the result in array of pixels */
+/* Components of a scene */
 typedef struct
 {
-    Uint32 color;
-}; Pixel
+    Camera camera;
+
+    int lightCount;
+    Light *lights;
+
+    int entityCount;
+    Entity *entities;
+
+    Bitmap bitmap;
+}; Scene;
+
+/* Storing the result in array of pixels */
+typedef Uint32 Pixel; /* SDL rgb color format */
 
 typedef struct
 {
-    int w;
-    int h;
+    int width;
+    int height;
     Pixel *pixels;
 }; Bitmap;
