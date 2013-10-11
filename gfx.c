@@ -2,6 +2,7 @@
  * SDL functions
  */
 #include "includes.h"
+#include "defines.h"
 
 void
 init(char *title)
