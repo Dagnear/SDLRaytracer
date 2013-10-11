@@ -2,6 +2,7 @@
  * Minimalistic raytracer
  */
 #include "includes.h"
+#include "declare.h"
 
 void
 cleanup()
