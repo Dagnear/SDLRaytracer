@@ -3,7 +3,7 @@
  */
 enum entity_type
 {
-    Sphere
+    t_sphere
 };
 
 /* Structures */
@@ -12,34 +12,34 @@ typedef struct
     int x;
     int y;
     int z;
-}; Vector;
+} Vector;
 
 /* Ray of 'light' */
 typedef struct
 {
     Vector position;
     Vector direction;
-}; Ray;
+} Ray;
 
 /* Is this a bit redundant? */
 typedef struct
 {
     Vector position;
     Vector direction;
-}; Camera
+} Camera;
 
 typedef struct
 {
     Vector position;
     int radius;
-}; Sphere;
+} Sphere;
 
 /* Possibility for different shapes */
 typedef struct
 {
     int type;
     void *entity;
-}; Entity;
+} Entity;
 
 /* Components of a scene */
 typedef struct
@@ -47,11 +47,10 @@ typedef struct
     Camera camera;
 
     int lightCount;
-    Light *lights;
+    Vector *lights;
 
     int entityCount;
     Entity *entities;
 
-    Bitmap bitmap;
-}; Scene;
+} Scene;
 
