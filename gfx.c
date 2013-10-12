@@ -49,8 +49,30 @@ gfx_cleanup()
     SDL_Quit();
 }
 
+void
+gfx_lockBuffer()
+{
+    if(SDL_MUSTLOCK(buffer))
+    {
+        if(SDL_LockSurface(buffer) < 0)
+        {
+            printf("[ERROR] Can't lock buffer: %s\n", SDL_GetError());
+        }
+    }
+}
+
+void
+gfx_unlockBuffer()
+{
+    if(SDL_MUSTLOCK(buffer))
+    {
+        SDL_UnlockSurface(buffer);
+    }
+}
+
 /* This is mostly from SDL 1.2 documentation */
-void gfx_putPixel(int x, int y, Pixel pixel)
+void
+gfx_putPixel(int x, int y, Pixel pixel)
 {
     int bpp = buffer->format->BytesPerPixel;
     /* Address to the pixel */
@@ -86,7 +108,7 @@ void gfx_putPixel(int x, int y, Pixel pixel)
         break;
 
         default:
-            printf("[WARNING] Failed to determine correct bytes per pixel. Pixel not inserted.\n");
+            printf("[ERROR] Failed to determine correct bytes per pixel.\n");
         break;
     }
 }
