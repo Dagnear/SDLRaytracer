@@ -70,6 +70,18 @@ gfx_unlockBuffer()
     }
 }
 
+void gfx_fillBuffer(Pixel color)
+{
+    SDL_Rect r;
+
+    r.x = 0;
+    r.y = 0;
+    r.w = buffer->w;
+    r.h = buffer->h;
+
+    SDL_FillRect(buffer,&r,color);
+}
+
 /* This is mostly from SDL 1.2 documentation */
 void
 gfx_putPixel(int x, int y, Pixel pixel)
