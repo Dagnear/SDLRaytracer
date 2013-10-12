@@ -124,6 +124,11 @@ gfx_update()
     SDL_Flip(screen);
 }
 
+Pixel
+gfx_getPixel(int r, int g, int b)
+{
+    return SDL_MapRGB(buffer->format,r,g,b);
+}
 
 
 
