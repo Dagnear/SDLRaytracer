@@ -21,7 +21,10 @@ main(int argc, char **argv)
     atexit(cleanup);
 
     Pixel yellow = gfx_getPixel(255,255,0);
+    Pixel blue = gfx_getPixel(0,0,255);
+
     gfx_lockBuffer();
+    gfx_fillBuffer(blue);
     gfx_putPixel(50,50,yellow);
     gfx_unlockBuffer();
     gfx_update();
