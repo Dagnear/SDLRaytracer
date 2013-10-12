@@ -17,7 +17,7 @@ main(int argc, char **argv)
 
     printf("Hello raytracer\n");
 
-    gfx_init("Hello raytracer!");
+    gfx_init(640,480,"Hello raytracer!");
     atexit(cleanup);
 
     run = 1;
@@ -26,8 +26,6 @@ main(int argc, char **argv)
         getInput();
         SDL_Delay(16);
     }
-
-    cleanup();
 
     return 0;
 }
