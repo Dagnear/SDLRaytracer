@@ -1,6 +1,7 @@
 /*
  * SDL functions
  */
+#include "gfx.h"
 #include "includes.h"
 #include "defines.h"
 
@@ -47,3 +48,52 @@ gfx_cleanup()
     SDL_FreeSurface(screen);
     SDL_Quit();
 }
+
+/* This is mostly from SDL 1.2 documentation */
+void gfx_putPixel(int x, int y, Pixel pixel)
+{
+    int bpp = buffer->format->BytesPerPixel;
+    /* Address to the pixel */
+    Uint8 *p = (Uint8 *)buffer->pixels + y * buffer->pitch + x * bpp;
+
+    switch(bpp)
+    {
+        case 1:
+            *p = pixel;
+        break;
+
+        case 2:
+            *(Uint16 *)p = pixel;
+        break;
+
+        case 3:
+            if(SDL_BYTEORDER == SDL_BIG_ENDIAN)
+            {
+                p[0] = (pixel >> 16) & 0xff;
+                p[1] = (pixel >> 8) & 0xff;
+                p[2] = pixel & 0xff;
+            }
+            else
+            {
+                p[0] = pixel & 0xff;
+                p[1] = (pixel >> 8) & 0xff;
+                p[2] = (pixel >> 16) & 0xff;
+            }
+        break;
+        
+        case 4:
+            *(Uint32 *)p = pixel;
+        break;
+
+        default:
+            printf("[WARNING] Failed to determine correct bytes per pixel. Pixel not inserted.\n");
+        break;
+    }
+}
+
+
+
+
+
+
+
