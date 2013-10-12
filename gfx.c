@@ -113,8 +113,16 @@ gfx_putPixel(int x, int y, Pixel pixel)
     }
 }
 
-
-
+/* Updates buffer to screen */
+void
+gfx_update()
+{
+    if(SDL_BlitSurface(buffer,NULL,screen,NULL) < 0)
+    {
+        printf("[ERROR] Could not blit surface: %s\n",SDL_GetError());
+    }
+    SDL_Flip(screen);
+}
 
 
 
