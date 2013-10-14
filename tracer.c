@@ -13,6 +13,12 @@ rt_printScene()
         scene.cameraPosition.x,
         scene.cameraPosition.y,
         scene.cameraPosition.z);
+    printf("Camera direction: %d,%d,%d\n",
+        scene.cameraDirection.x,
+        scene.cameraDirection.y,
+        scene.cameraDirection.z);
+    printf("Light count %d\n",scene.lightCount);
+    printf("Object count %d\n",scene.objectCount);
 }
 
 void
