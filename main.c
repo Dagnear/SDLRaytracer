@@ -17,8 +17,8 @@ main(int argc, char **argv)
 
     printf("Hello raytracer\n");
 
-    initScene();
-    printScene();
+    rt_initScene();
+    rt_printScene();
 
     gfx_init(640,480,"Hello raytracer!");
     atexit(cleanup);

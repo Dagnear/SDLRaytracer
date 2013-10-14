@@ -6,7 +6,7 @@ Scene scene;
 
 /* Debug function */
 void
-printScene()
+rt_printScene()
 {
     printf("-=-=-Scene-=-=-\n");
     printf("Camera position: %d,%d,%d\n",
@@ -16,7 +16,7 @@ printScene()
 }
 
 void
-initScene()
+rt_initScene()
 {
     scene.cameraPosition.x = 0;
     scene.cameraPosition.y = 0;
