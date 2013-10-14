@@ -4,6 +4,7 @@
 enum entity_type
 {
     t_sphere
+    t_plane;
 };
 
 /* Structures */
