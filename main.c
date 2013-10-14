@@ -18,6 +18,8 @@ main(int argc, char **argv)
     printf("Hello raytracer\n");
 
     rt_initScene();
+    rt_setCameraPosition(10,20,30);
+    rt_setCameraDirection(-1,0,1);
     rt_printScene();
 
     gfx_init(640,480,"Hello raytracer!");

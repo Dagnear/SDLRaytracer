@@ -12,3 +12,5 @@ void getInput();
 
 void rt_initScene();
 void rt_printScene();
+void rt_setCameraPosition();
+void rt_setCameraDirection();

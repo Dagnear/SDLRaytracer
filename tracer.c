@@ -38,3 +38,19 @@ rt_initScene()
     scene.objectCount = 0;
     scene.objects = NULL;
 }
+
+void
+rt_setCameraPosition(int x, int y, int z)
+{
+    scene.cameraPosition.x = x;
+    scene.cameraPosition.y = y;
+    scene.cameraPosition.z = z;
+}
+
+void
+rt_setCameraDirection(int x, int y, int z)
+{
+    scene.cameraDirection.x = x;
+    scene.cameraDirection.y = y;
+    scene.cameraDirection.z = z;
+}
