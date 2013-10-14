@@ -1,12 +1,3 @@
-/* Enumertions for different entity types
- * maybe extend beyond spheres in the future?
- */
-enum entity_type
-{
-    t_sphere
-    t_plane;
-};
-
 /* Structures */
 typedef struct
 {
@@ -22,36 +13,38 @@ typedef struct
     Vector direction;
 } Ray;
 
-/* Is this a bit redundant? */
+/* Enumertions for different entity types
+ * maybe extend beyond spheres in the future?
+ */
+enum t_object
+{
+    t_sphere,
+    t_plane
+};
+
 typedef struct
 {
-    Vector position;
-    Vector direction;
-} Camera;
+    enum t_object type;
+    void *object;
+} Object;
 
 typedef struct
 {
     Vector position;
-    int radius;
+    unsigned radius;
 } Sphere;
-
-/* Possibility for different shapes */
-typedef struct
-{
-    int type;
-    void *entity;
-} Entity;
 
 /* Components of a scene */
 typedef struct
 {
-    Camera camera;
+    Vector cameraPosition;
+    Vector cameraDirection;
 
     int lightCount;
     Vector *lights;
 
-    int entityCount;
-    Entity *entities;
+    int objectCount;
+    Object *objects;
 
 } Scene;
 
