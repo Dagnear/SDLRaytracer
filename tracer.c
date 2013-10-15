@@ -54,3 +54,13 @@ rt_setCameraDirection(int x, int y, int z)
     scene.cameraDirection.y = y;
     scene.cameraDirection.z = z;
 }
+
+void rt_setLightCount(int count)
+{
+   scene.lightCount = count; 
+}
+
+void rt_setObjectCount(int count)
+{
+    scene.ObjectCount = count;
+}
