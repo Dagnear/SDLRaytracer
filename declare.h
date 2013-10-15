@@ -1,4 +1,5 @@
 #include "gfx.h"
+#include "tracer.h"
 
 void gfx_init(int width, int height, char *title);
 void gfx_cleanup();
@@ -17,5 +18,5 @@ void rt_setCameraDirection();
 void rt_setLightCount(int count);
 void rt_setObjectCount(int count);
 void rt_cleanup();
-void rt_setLight(int num, int x, int y , int z, float intensity);
+void rt_setLight(int num, Light *light);
 void rt_setObject(int num, Object *obj);
