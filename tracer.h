@@ -24,6 +24,7 @@ typedef struct
  */
 enum t_object
 {
+    t_null, //No object assigned
     t_sphere,
     t_plane
 };
