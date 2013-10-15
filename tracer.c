@@ -62,5 +62,5 @@ void rt_setLightCount(int count)
 
 void rt_setObjectCount(int count)
 {
-    scene.ObjectCount = count;
+    scene.objectCount = count;
 }
