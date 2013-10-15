@@ -2,7 +2,6 @@
  * SDL functions
  */
 #include "gfx.h"
-#include "libs.h"
 
 void
 gfx_init(int width, int height, char *title)
