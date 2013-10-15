@@ -14,5 +14,5 @@ void rt_initScene();
 void rt_printScene();
 void rt_setCameraPosition();
 void rt_setCameraDirection();
-void rt_setLightCount();
-void rt_setObjectCount();
+void rt_setLightCount(int count);
+void rt_setObjectCount(int count);
