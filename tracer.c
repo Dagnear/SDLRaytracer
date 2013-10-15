@@ -77,10 +77,21 @@ void rt_setObjectCount(int count)
 
 void rt_cleanup()
 {
+    int i;
     if(NULL != scene.lights)
         free(scene.lights);
     if(NULL != scene.objects)
+    {
+        /*
+        for(i=0;i<scene.objectCount;i++)
+        {
+           if(NULL != scene.objects[i].object)
+               free(scene.objects[i].object);
+        }
+        */
         free(scene.objects);
+    }
+    
 }
 
 void rt_setLight(int num, Light *light)
