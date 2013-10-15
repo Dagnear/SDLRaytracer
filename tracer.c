@@ -9,11 +9,11 @@ void
 rt_printScene()
 {
     printf("-=-=-Scene-=-=-\n");
-    printf("Camera position: %d,%d,%d\n",
+    printf("Camera position: %f,%f,%f\n",
         scene.cameraPosition.x,
         scene.cameraPosition.y,
         scene.cameraPosition.z);
-    printf("Camera direction: %d,%d,%d\n",
+    printf("Camera direction: %f,%f,%f\n",
         scene.cameraDirection.x,
         scene.cameraDirection.y,
         scene.cameraDirection.z);
@@ -73,7 +73,6 @@ void rt_setObjectCount(int count)
        free(scene.objects);
 
     scene.objects = (Object *)malloc(sizeof(Object)*count);
-
 }
 
 void rt_cleanup()
@@ -82,5 +81,33 @@ void rt_cleanup()
         free(scene.lights);
     if(NULL != scene.objects)
         free(scene.objects);
+}
+
+void rt_setLight(int num, Light *light)
+{
+    if(scene.lightCount > num)
+    {
+        scene.lights[num].position.x = light->position.x;
+        scene.lights[num].position.y = light->position.y;
+        scene.lights[num].position.z = light->position.z;
+        scene.lights[num].intensity = light->intensity;
+    }
+    else
+    {
+        printf("[WARNING] Tried to assign light out of bounds\n");
+    }
+}
+
+void rt_setObject(int num, Object *obj)
+{
+    if(scene.objectCount > num)
+    {
+        scene.objects[num].type = obj->type;
+        scene.objects[num].object = obj->object;
+    }
+    else
+    {
+        printf("[WARNING] Tried to assign object out of bounds\n");
+    }
 }
 
