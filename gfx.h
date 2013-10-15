@@ -1,4 +1,3 @@
-#include "includes.h"
 /* Storing the result in array of pixels */
 typedef Uint32 Pixel; /* SDL rgb color format */
 
@@ -18,3 +17,6 @@ void gfx_unlockBuffer();
 Pixel gfx_getPixel(int r, int g, int b);
 void gfx_fillBuffer(Pixel color);
 
+/* Variables */
+SDL_Surface *screen;
+SDL_Surface *buffer;
