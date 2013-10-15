@@ -37,7 +37,7 @@ typedef struct
 typedef struct
 {
     Vector position;
-    unsigned radius;
+    float radius;
 } Sphere;
 
 /* Components of a scene */
