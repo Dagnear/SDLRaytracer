@@ -192,6 +192,20 @@ Pixel rt_trace(Ray *primaryRay, int limit)
  */
 void rt_renderScene()
 {
-    Ray primaryRay, shadowRay, normalRay;
-    Pixel color;
+    int x,y;
+    Pixel pixel;
+    Ray ray;
+
+    ray.position.x = scene.cameraPosition.x;
+    ray.position.y = scene.cameraPosition.y;
+    ray.position.z = scene.cameraPosition.z;
+
+    for(y=0;y<scene.screenY;y++)
+    {
+        for(x=0;x<scene.screenX;x++)
+        {
+            pixel = rt_trace(&ray,0);
+            gfx_putPixel(x,y,pixel);
+        }
+    }
 }
