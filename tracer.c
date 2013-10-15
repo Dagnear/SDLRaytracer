@@ -8,6 +8,7 @@ Scene scene;
 void
 rt_printScene()
 {
+    int i;
     printf("-=-=-Scene-=-=-\n");
     printf("Camera position: %f,%f,%f\n",
         scene.cameraPosition.x,
@@ -17,8 +18,45 @@ rt_printScene()
         scene.cameraDirection.x,
         scene.cameraDirection.y,
         scene.cameraDirection.z);
+
     printf("Light count %d\n",scene.lightCount);
+    for(i=0;i<scene.lightCount;i++)
+    {
+        printf("Light[%d]: Position: x=%f y=%f z=%f Intensity %f\n",
+                i,
+                scene.lights[i].position.x,
+                scene.lights[i].position.y,
+                scene.lights[i].position.z,
+                scene.lights[i].intensity);
+    }
+
     printf("Object count %d\n",scene.objectCount);
+    for(i=0;i<scene.objectCount;i++)
+    {
+        printf("Object[%d]: ",i);
+        switch(scene.objects[i].type)
+        {
+            case t_null:
+                printf("\tEmpty object\n");
+            break;
+            case t_sphere:
+                printf("Sphere\n");
+                Sphere *s;
+                s = (Sphere *)scene.objects[i].object;
+                printf("\tType: Sphere Position: x=%f y=%f z=%f Radius: %f\n",
+                    s->position.x,
+                    s->position.y,
+                    s->position.z,
+                    s->radius); 
+                
+            break;
+            case t_plane:
+            break;
+            default:
+                printf("unknown type %d\n",scene.objects->type);
+            break;
+        }
+    }
 }
 
 void
@@ -67,17 +105,21 @@ void rt_setLightCount(int count)
 
 void rt_setObjectCount(int count)
 {
+    int i;
     scene.objectCount = count;
 
     if(NULL != scene.objects)
        free(scene.objects);
 
     scene.objects = (Object *)malloc(sizeof(Object)*count);
+
+    for(i=0;i<count;i++)
+        scene.objects[i].type = t_null;
 }
 
 void rt_cleanup()
 {
-    int i;
+    //int i;
     if(NULL != scene.lights)
         free(scene.lights);
     if(NULL != scene.objects)
@@ -85,13 +127,13 @@ void rt_cleanup()
         /*
         for(i=0;i<scene.objectCount;i++)
         {
-           if(NULL != scene.objects[i].object)
-               free(scene.objects[i].object);
+           if(NULL != scene.objects[i]->object)
+               free(scene.objects[i]->object);
         }
+
         */
         free(scene.objects);
     }
-    
 }
 
 void rt_setLight(int num, Light *light)
