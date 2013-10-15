@@ -20,3 +20,4 @@ void rt_setObjectCount(int count);
 void rt_cleanup();
 void rt_setLight(int num, Light *light);
 void rt_setObject(int num, Object *obj);
+void rt_setResolution(int w, int h);
