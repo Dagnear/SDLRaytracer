@@ -8,6 +8,7 @@ void
 cleanup()
 {
     gfx_cleanup();
+    rt_cleanup();
 }
 
 int
