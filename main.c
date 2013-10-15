@@ -1,8 +1,9 @@
 /*
  * Minimalistic raytracer
  */
-#include "includes.h"
-#include "declare.h"
+#include "gfx.h"
+#include "tracer.h"
+#include "input.h"
 
 void
 cleanup()

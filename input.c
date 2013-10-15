@@ -1,8 +1,7 @@
+#include "libs.h"
 /*
  * Input handling for SDL
  */
-#include "includes.h"
-
 void getInput()
 {
     SDL_Event event;
