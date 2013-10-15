@@ -57,10 +57,22 @@ rt_setCameraDirection(int x, int y, int z)
 
 void rt_setLightCount(int count)
 {
-   scene.lightCount = count; 
+    scene.lightCount = count; 
+
+    if(NULL != scene.lights)
+       free(scene.lights);
+
+    scene.lights = (Light *)malloc(sizeof(Light)*count);
 }
 
 void rt_setObjectCount(int count)
 {
     scene.objectCount = count;
+
+    if(NULL != scene.objects)
+       free(scene.objects);
+
+    scene.objects = (Object *)malloc(sizeof(Object)*count);
+
 }
+
