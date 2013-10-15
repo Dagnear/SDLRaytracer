@@ -23,6 +23,24 @@ main(int argc, char **argv)
     rt_setCameraDirection(-1,0,1);
     rt_setLightCount(2);
     rt_setObjectCount(3);
+
+    Light l;
+    l.position.x = 10.0;
+    l.position.y = 0.0;
+    l.position.z = -100.0;
+    l.intensity = 0.80;
+
+    Object o;
+    Sphere s;
+    s.position.x = 1.0;
+    s.position.y = 2.0;
+    s.position.z = 3.0;
+    s.radius = 20.0;
+    o.type = t_sphere;
+    o.object = &s;
+
+    rt_setLight(0,&l);
+    rt_setObject(0,&o);
     rt_printScene();
 
     gfx_init(640,480,"Hello raytracer!");
