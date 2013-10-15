@@ -13,6 +13,12 @@ typedef struct
     Vector direction;
 } Ray;
 
+typedef struct
+{
+    Vector position;
+    float intensity;
+} Light;
+
 /* Enumertions for different entity types
  * maybe extend beyond spheres in the future?
  */
