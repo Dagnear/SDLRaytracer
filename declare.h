@@ -16,3 +16,4 @@ void rt_setCameraPosition();
 void rt_setCameraDirection();
 void rt_setLightCount(int count);
 void rt_setObjectCount(int count);
+void rt_cleanup();
