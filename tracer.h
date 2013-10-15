@@ -47,7 +47,7 @@ typedef struct
     Vector cameraDirection;
 
     int lightCount;
-    Vector *lights;
+    Light *lights;
 
     int objectCount;
     Object *objects;
