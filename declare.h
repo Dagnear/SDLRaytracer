@@ -9,7 +9,6 @@ void gfx_lockBuffer();
 void gfx_unlockBuffer();
 Pixel gfx_getPixel(int r, int g, int b);
 void gfx_fillBuffer(Pixel color);
-void getInput();
 
 void rt_initScene();
 void rt_printScene();
