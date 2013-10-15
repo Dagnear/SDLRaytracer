@@ -10,6 +10,7 @@ rt_printScene()
 {
     int i;
     printf("-=-=-Scene-=-=-\n");
+    printf("Resolution: %dx%d\n",scene.screenX,scene.screenY);
     printf("Camera position: %f,%f,%f\n",
         scene.cameraPosition.x,
         scene.cameraPosition.y,
@@ -37,7 +38,7 @@ rt_printScene()
         switch(scene.objects[i].type)
         {
             case t_null:
-                printf("\tEmpty object\n");
+                printf("Empty object\n");
             break;
             case t_sphere:
                 printf("Sphere\n");
@@ -62,6 +63,9 @@ rt_printScene()
 void
 rt_initScene()
 {
+    scene.screenX = 0;
+    scene.screenY = 0;
+
     scene.cameraPosition.x = 0;
     scene.cameraPosition.y = 0;
     scene.cameraPosition.z = 0;
@@ -75,6 +79,13 @@ rt_initScene()
 
     scene.objectCount = 0;
     scene.objects = NULL;
+}
+
+void
+rt_setResolution(int w, int h)
+{
+    scene.screenX = w;
+    scene.screenY = h;
 }
 
 void
@@ -164,3 +175,10 @@ void rt_setObject(int num, Object *obj)
     }
 }
 
+/*
+ * Renders the scene
+ */
+void rt_renderScene()
+{
+
+}
