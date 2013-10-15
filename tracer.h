@@ -44,6 +44,9 @@ typedef struct
 /* Components of a scene */
 typedef struct
 {
+    int screenX;
+    int screenY;
+
     Vector cameraPosition;
     Vector cameraDirection;
 
