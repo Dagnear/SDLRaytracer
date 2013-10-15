@@ -19,6 +19,7 @@ main(int argc, char **argv)
     printf("Hello raytracer\n");
 
     rt_initScene();
+    rt_setResolution(640,480);
     rt_setCameraPosition(10,20,30);
     rt_setCameraDirection(-1,0,1);
     rt_setLightCount(2);
