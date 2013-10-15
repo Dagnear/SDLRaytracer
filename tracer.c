@@ -2,6 +2,8 @@
 #include "gfx.h"
 #include "includes.h"
 
+#define MAXRECURSION 3
+
 Scene scene;
 
 /* Debug function */
@@ -176,9 +178,20 @@ void rt_setObject(int num, Object *obj)
 }
 
 /*
+ * Trace a single ray
+ * limit for recursion
+ */
+Pixel rt_trace(Ray *primaryRay, int limit)
+{
+    //Foo
+    return 0;
+}
+
+/*
  * Renders the scene
  */
 void rt_renderScene()
 {
-
+    Ray primaryRay, shadowRay, normalRay;
+    Pixel color;
 }
