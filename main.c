@@ -20,6 +20,8 @@ main(int argc, char **argv)
     rt_initScene();
     rt_setCameraPosition(10,20,30);
     rt_setCameraDirection(-1,0,1);
+    rt_setLightCount(2);
+    rt_setObjectCount(3);
     rt_printScene();
 
     gfx_init(640,480,"Hello raytracer!");
