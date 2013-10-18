@@ -2,6 +2,7 @@
 #include "tracer.h"
 #include "gfx.h"
 
+#define EPSILON 0.01
 #define MAXRECURSION 3
 
 Scene scene;
