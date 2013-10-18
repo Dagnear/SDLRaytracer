@@ -69,3 +69,7 @@ void rt_setLight(int num, Light *light);
 void rt_setObject(int num, Object *obj);
 void rt_setResolution(int w, int h);
 
+void rt_vectorSubstract(Vector *v1, Vector *v2, Vector *result);
+void rt_vectorAdd(Vector *v1, Vector *v2, Vector *result);
+void rt_vectorMultiply(Vector *v1, Vector *v2, Vector *result);
+void rt_dotProduct(Vector *v1, Vector *v2, Vector *result);
