@@ -54,7 +54,7 @@ rt_printScene()
                 
             break;
             case t_plane:
-                prinft("\tType: Plane No features implemented.\n");
+                printf("\tType: Plane No features implemented.\n");
             break;
             default:
                 printf("unknown type %d\n",scene.objects->type);
