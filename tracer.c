@@ -210,3 +210,33 @@ void rt_renderScene()
         }
     }
 }
+
+/*
+ * Vector math functions
+ */
+void rt_vectorSubstract(Vector *v1, Vector *v2, Vector *result)
+{
+    result->x = v1->x - v2->x;
+    result->y = v1->y - v2->y;
+    result->z = v1->z - v2->z;
+}
+
+void rt_vectorAdd(Vector *v1, Vector *v2, Vector *result)
+{
+    result->x = v1->x + v2->x;
+    result->y = v1->y + v2->y;
+    result->z = v1->z + v2->z;
+}
+
+void rt_vectorMultiply(Vector *v1, float scalar, Vector *result)
+{
+    result->x = v1->x*scalar;
+    result->y = v1->y*scalar;
+    result->z = v1->z*scalar;
+}
+
+float rt_dotProduct(Vector *v1, Vector *v2)
+{
+    return v1->x*v2->x + v1->y*v2->y + v1->z*v2->z; 
+}
+
