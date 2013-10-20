@@ -41,9 +41,11 @@ rt_printScene()
         switch(scene.objects[i].type)
         {
             case t_null:
+            {
                 printf("Empty object\n");
-            break;
+            } break;
             case t_sphere:
+            {
                 printf("Sphere\n");
                 Sphere *s;
                 s = (Sphere *)scene.objects[i].object;
@@ -53,13 +55,15 @@ rt_printScene()
                     s->position.z,
                     s->radius); 
                 
-            break;
+            } break;
             case t_plane:
+            {
                 printf("\tType: Plane No features implemented.\n");
-            break;
+            } break;
             default:
+            {
                 printf("unknown type %d\n",scene.objects->type);
-            break;
+            } break;
         }
     }
 
@@ -268,6 +272,21 @@ float rt_dotProduct(Vector *v1, Vector *v2)
  */
 int rt_Intersect(Ray *ray,Object *object,Vector *pointHit,Vector *normalHit)
 {
+    switch(object->type)
+    {
+        case t_sphere:
+        {
+            Sphere *s = (Sphere *)object->object;
+            /* Let's assume sphere is in origin */
+            Vector distance;
+            rt_vectorSubstract(&(s->position),&(ray->position),&distance);
+            printf("Distance: (%f,%f,%f)",distance.x,distance.y,distance.z);
+        } break;
+        default:
+        break;
+    }
+
+    /* No intersection */
     return 0;    
 }
 
