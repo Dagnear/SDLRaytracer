@@ -74,4 +74,4 @@ void rt_vectorAdd(Vector *v1, Vector *v2, Vector *result);
 void rt_vectorMultiply(Vector *v1, float scalar, Vector *result);
 float rt_dotProduct(Vector *v1, Vector *v2);
 
-int rt_Intersect(Ray *ray,Object *object,Vector *pointHit,Vector *normalHit);
+int rt_intersect(Ray *ray,Object *object,Vector *pointHit,Vector *normalHit);
