@@ -220,8 +220,8 @@ void rt_renderScene()
     Pixel pixel;
     Ray ray;
 
-    ray.position.x = scene.cameraPosition.x;
-    ray.position.y = scene.cameraPosition.y;
+    ray.position.x = scene.cameraPosition.x - (scene.screenX/2);
+    ray.position.y = scene.cameraPosition.y - (scene.screenY/2);
     ray.position.z = scene.cameraPosition.z;
 
     for(y=0;y<scene.screenY;y++)
