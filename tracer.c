@@ -263,3 +263,12 @@ float rt_dotProduct(Vector *v1, Vector *v2)
     return v1->x*v2->x + v1->y*v2->y + v1->z*v2->z; 
 }
 
+/*
+ * Determine intersection with object if any
+ */
+int rt_Intersect(Ray *ray,Object *object,Vector *pointHit,Vector *normalHit)
+{
+    return 0;    
+}
+
+
