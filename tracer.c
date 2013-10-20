@@ -88,6 +88,23 @@ rt_printScene()
 
     result = rt_dotProduct(&v1,&v2);
     printf("dot(v1,v2) = %f\n",result);
+
+    printf("\n-_-_-_Intersection testing_-_-_-\n");
+    Ray r; Object o; Sphere s; Vector n, p; int intersects;
+    r.position.x = 10.0; r.direction.x = 1.0; s.position.x = -20.0;
+    r.position.y = 20.0; r.direction.y = 1.0; s.position.y = 15.0;
+    r.position.z = 30.0; r.direction.z = 1.0; s.position.z = 4.0;
+    s.radius = 5;
+    o.type = t_sphere; o.object = &s;
+    intersects = rt_intersect(&r,&o,&n,&p);
+    printf("Intersection of\n");
+    printf("\t[RAY] Position: (%f,%f,%f) Direction: (%f,%f,%f)\n",
+        r.position.x,r.position.y,r.position.z,
+        r.direction.x,r.direction.y,r.direction.z);
+    printf("\t[SPHERE] Position: (%f,%f,%f) Radius: %f\n",
+        s.position.x,s.position.y,s.position.z, s.radius);
+    printf("Result: %d\n",intersects);
+
 }
 
 void
@@ -270,7 +287,7 @@ float rt_dotProduct(Vector *v1, Vector *v2)
 /*
  * Determine intersection with object if any
  */
-int rt_Intersect(Ray *ray,Object *object,Vector *pointHit,Vector *normalHit)
+int rt_intersect(Ray *ray,Object *object,Vector *pointHit,Vector *normalHit)
 {
     switch(object->type)
     {
@@ -280,7 +297,7 @@ int rt_Intersect(Ray *ray,Object *object,Vector *pointHit,Vector *normalHit)
             /* Let's assume sphere is in origin */
             Vector distance;
             rt_vectorSubstract(&(s->position),&(ray->position),&distance);
-            printf("Distance: (%f,%f,%f)",distance.x,distance.y,distance.z);
+            printf("Distance: (%f,%f,%f)\n",distance.x,distance.y,distance.z);
         } break;
         default:
         break;
