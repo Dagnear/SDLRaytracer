@@ -286,6 +286,14 @@ float rt_dotProduct(Vector *v1, Vector *v2)
     return v1->x*v2->x + v1->y*v2->y + v1->z*v2->z; 
 }
 
+float rt_vectorLength(Vector *v)
+{
+}
+
+void rt_vectorNormalize(Vector *v,Vector *result)
+{
+}
+
 /*
  * Determine intersection with object if any
  */
