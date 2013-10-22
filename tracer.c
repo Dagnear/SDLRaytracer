@@ -296,10 +296,22 @@ int rt_intersect(Ray *ray,Object *object,Vector *pointHit,Vector *normalHit)
         case t_sphere:
         {
             Sphere *s = (Sphere *)object->object;
-            /* Let's assume sphere is in origin */
-            Vector distance;
+            /* Sphere is assumed at origin and direction
+             * vector of the ray to be normalized to allow
+             * some optimization of the quadratic intersection
+             * equation
+             */
+            Vector distance; float B, D;
+
             rt_vectorSubstract(&(s->position),&(ray->position),&distance);
             printf("Distance: (%f,%f,%f)\n",distance.x,distance.y,distance.z);
+
+            B = rt_dotProduct(&(ray->direction),&(s->position));
+            printf("B = %f\n",B);
+            
+            D = B*B - rt_dotProduct(&distance,&distance) + s->radius*s->radius;
+            printf("Discriminant: %f\n",D);
+
         } break;
         default:
         break;
