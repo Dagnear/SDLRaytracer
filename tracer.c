@@ -299,6 +299,16 @@ float rt_vectorLength(Vector *v)
 
 void rt_vectorNormalize(Vector *v,Vector *result)
 {
+    float len,x,y,z;
+    
+    len = rt_vectorLength(v);
+    x = v->x/len;
+    y = v->y/len;
+    z = v->z/len;
+
+    result->x = x;
+    result->y = y;
+    result->z = z;
 }
 
 /*
