@@ -96,13 +96,15 @@ rt_printScene()
     r.position.z = 30.0; r.direction.z = 1.0; s.position.z = 4.0;
     s.radius = 5;
     o.type = t_sphere; o.object = &s;
-    intersects = rt_intersect(&r,&o,&n,&p);
+
     printf("Intersection of\n");
     printf("\t[RAY] Position: (%f,%f,%f) Direction: (%f,%f,%f)\n",
         r.position.x,r.position.y,r.position.z,
         r.direction.x,r.direction.y,r.direction.z);
     printf("\t[SPHERE] Position: (%f,%f,%f) Radius: %f\n",
         s.position.x,s.position.y,s.position.z, s.radius);
+
+    intersects = rt_intersect(&r,&o,&n,&p);
     printf("Result: %d\n",intersects);
 
 }
