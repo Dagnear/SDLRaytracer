@@ -91,10 +91,10 @@ rt_printScene()
 
     printf("\n-_-_-_Intersection testing_-_-_-\n");
     Ray r; Object o; Sphere s; Vector n, p; int intersects;
-    r.position.x = 10.0; r.direction.x = 1.0; s.position.x = -20.0;
-    r.position.y = 20.0; r.direction.y = 1.0; s.position.y = 15.0;
-    r.position.z = 30.0; r.direction.z = 1.0; s.position.z = 4.0;
-    s.radius = 5;
+    r.position.x = 0.0;     r.direction.x = 1.0; s.position.x = -20.0;
+    r.position.y = 20.0;    r.direction.y = 1.0; s.position.y = 15.0;
+    r.position.z = -80.0;   r.direction.z = 1.0; s.position.z = 10.0;
+    s.radius = 30.0;
     o.type = t_sphere; o.object = &s;
 
     printf("Intersection of\n");
