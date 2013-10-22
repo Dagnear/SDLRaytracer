@@ -69,7 +69,7 @@ rt_printScene()
     }
 
     printf("\n+-+-+-Vector math test-+-+-+\n");
-    Vector v1,v2,v3; float scalar, result;
+    Vector v1,v2,v3; float scalar, result, len;
     v1.x = 4.0;   v2.x = 8.0;   v3.x = 0.0;
     v1.y = 3.0;   v2.y = 1.0;   v3.y = 0.0;
     v1.z = 9.0;   v2.z = -3.4; v3.z = 0.0;
@@ -77,6 +77,9 @@ rt_printScene()
 
     printf("v1 = (%f,%f,%f)\n",v1.x,v1.y,v1.z);
     printf("v2 = (%f,%f,%f)\n",v2.x,v2.y,v2.z);
+
+    len = rt_vectorLength(&v1);
+    printf("length(v1) = %f\n",len);
 
     rt_vectorAdd(&v1,&v2,&v3);
     printf("v1 + v2 = (%f,%f,%f)\n",v3.x,v3.y,v3.z);
