@@ -1,3 +1,4 @@
+#include <math.h>
 #include "libs.h"
 #include "tracer.h"
 #include "gfx.h"
@@ -288,6 +289,9 @@ float rt_dotProduct(Vector *v1, Vector *v2)
 
 float rt_vectorLength(Vector *v)
 {
+    float x,y,z;
+    x = v->x; y = v->y; z = v->z;
+    return sqrt((x*x) + (y*y) + (z*z));
 }
 
 void rt_vectorNormalize(Vector *v,Vector *result)
