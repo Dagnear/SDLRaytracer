@@ -93,6 +93,9 @@ rt_printScene()
     result = rt_dotProduct(&v1,&v2);
     printf("dot(v1,v2) = %f\n",result);
 
+    rt_vectorNormalize(&v1,&v3);
+    printf("normalize(v1) = (%f,%f,%f)\n",v3.x,v3.y,v3.z);
+
     printf("\n-_-_-_Intersection testing_-_-_-\n");
     Ray r; Object o; Sphere s; Vector n, p; int intersects;
     r.position.x = 0.0;     r.direction.x = 1.0; s.position.x = -20.0;
