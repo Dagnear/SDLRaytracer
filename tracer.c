@@ -350,25 +350,26 @@ int rt_intersect(Ray *ray,Object *object,Vector *pointHit,Vector *normalHit)
             /* Two roots */
             if(D > 0)
             {
-                /* Smallest root */
+                /* Smaller root first */
                 t = -B - sqrt(D);
-                if(t > EPSILON)
+                if(t < EPSILON)
                 {
-                    /* Calculate point hit */
-                    rt_vectorMultiply(&normalizedDirection,t,&resultDirection);
-                    rt_vectorAdd(&resultDirection,&(ray->position),pointHit);
+                    t = -B + sqrt(D);
+                    if(t < EPSILON)
+                    {
+                        /* Sphere is behind the viewpoint
+                        * no intersection
+                        */
+                        return 0;
+                    }
                 }
-
-                t = -B + sqrt(D);
-                if(t > EPSILON)
-                {
-                }
-                /* Sphere is behind the viewpoint
-                 * no intersection
-                 */
-                return 0;
             }
             /* One root -> tangent of the sphere */
+            t = -B;
+
+            /* Calculate point hit */
+            rt_vectorMultiply(&normalizedDirection,t,&resultDirection);
+            rt_vectorAdd(&resultDirection,&(ray->position),pointHit);
 
         } break;
         default:
