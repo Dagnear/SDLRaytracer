@@ -329,23 +329,55 @@ int rt_intersect(Ray *ray,Object *object,Vector *pointHit,Vector *normalHit)
              * some optimization of the quadratic intersection
              * equation
              */
-            Vector distance; float B, D;
+            Vector resultDirection;
+            Vector distance, normalizedDirection; float B, D, t;
 
             rt_vectorSubstract(&(s->position),&(ray->position),&distance);
             printf("Distance: (%f,%f,%f)\n",distance.x,distance.y,distance.z);
 
-            B = rt_dotProduct(&(ray->direction),&(s->position));
+            rt_vectorNormalize(&(ray->direction),&normalizedDirection);
+            B = rt_dotProduct(&normalizedDirection,&(s->position));
             printf("B = %f\n",B);
             
             D = B*B - rt_dotProduct(&distance,&distance) + s->radius*s->radius;
             printf("Discriminant: %f\n",D);
+
+            /* No real roots, no intersection */
+            if(D < 0)
+            {
+                return 0;
+            }
+            /* Two roots */
+            if(D > 0)
+            {
+                /* Smallest root */
+                t = -B - sqrt(D);
+                if(t > EPSILON)
+                {
+                    /* Calculate point hit */
+                    rt_vectorMultiply(&normalizedDirection,t,&resultDirection);
+                    rt_vectorAdd(&resultDirection,&(ray->position),pointHit);
+                }
+
+                t = -B + sqrt(D);
+                if(t > EPSILON)
+                {
+                }
+                /* Sphere is behind the viewpoint
+                 * no intersection
+                 */
+                return 0;
+            }
+            /* One root -> tangent of the sphere */
 
         } break;
         default:
         break;
     }
 
-    /* No intersection */
+    /* We do not know how to calculate intersection 
+     * for unkown object
+     */
     return 0;    
 }
 
