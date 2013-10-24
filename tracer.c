@@ -97,7 +97,7 @@ rt_printScene()
     printf("normalize(v1) = (%f,%f,%f)\n",v3.x,v3.y,v3.z);
 
     printf("\n-_-_-_Intersection testing_-_-_-\n");
-    Ray r; Object o; Sphere s; Vector n, p; int intersects;
+    Ray r; Object o; Sphere s; Vector n, p; float intersects;
     r.position.x = 0.0;     r.direction.x = 1.0; s.position.x = -20.0;
     r.position.y = 20.0;    r.direction.y = 1.0; s.position.y = 15.0;
     r.position.z = -80.0;   r.direction.z = 1.0; s.position.z = 10.0;
@@ -113,7 +113,7 @@ rt_printScene()
         s.position.x,s.position.y,s.position.z, s.radius);
 
     intersects = rt_intersect(&r,&o);
-    printf("Result: %d\n",intersects);
+    printf("Result: %f\n",intersects);
 
 }
 
