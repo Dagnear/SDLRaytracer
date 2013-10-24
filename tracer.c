@@ -111,7 +111,7 @@ rt_printScene()
     printf("\t[SPHERE] Position: (%f,%f,%f) Radius: %f\n",
         s.position.x,s.position.y,s.position.z, s.radius);
 
-    intersects = rt_intersect(&r,&o,&n,&p);
+    intersects = rt_intersect(&r,&o);
     printf("Result: %d\n",intersects);
 
 }
@@ -315,9 +315,9 @@ void rt_vectorNormalize(Vector *v,Vector *result)
 }
 
 /*
- * Determine intersection with object if any
+ * Determine intersection scalar with object if any
  */
-int rt_intersect(Ray *ray,Object *object,Vector *pointHit,Vector *normalHit)
+float rt_intersect(Ray *ray,Object *object)
 {
     switch(object->type)
     {
@@ -329,14 +329,12 @@ int rt_intersect(Ray *ray,Object *object,Vector *pointHit,Vector *normalHit)
              * some optimization of the quadratic intersection
              * equation
              */
-            Vector resultDirection;
-            Vector distance, normalizedDirection; float B, D, t;
+            Vector distance; float B, D, t;
 
             rt_vectorSubstract(&(s->position),&(ray->position),&distance);
             printf("Distance: (%f,%f,%f)\n",distance.x,distance.y,distance.z);
 
-            rt_vectorNormalize(&(ray->direction),&normalizedDirection);
-            B = rt_dotProduct(&normalizedDirection,&(s->position));
+            B = rt_dotProduct(&(ray->direction),&(s->position));
             printf("B = %f\n",B);
             
             D = B*B - rt_dotProduct(&distance,&distance) + s->radius*s->radius;
@@ -345,33 +343,31 @@ int rt_intersect(Ray *ray,Object *object,Vector *pointHit,Vector *normalHit)
             /* No real roots, no intersection */
             if(D < 0) return 0;
 
+            /* One root -> tangent of the sphere */
+            if(0 == D) t = -B;
+
             /* Two roots */
             if(D > 0)
             {
+                D = sqrt(D);
+
                 /* Smaller root first */
-                t = -B - sqrt(D);
-                if(t < EPSILON)
-                {
-                    t = -B + sqrt(D);
-                    if(t < EPSILON)
-                    {
-                        /* Sphere is behind the viewpoint
-                        * no intersection
-                        */
-                        return 0;
-                    }
-                }
+                t = -B - D;
+
+                if(t < EPSILON) t = -B + D;
             }
-            /* One root -> tangent of the sphere */
-            t = -B;
-            if(t < 0) return 0;
 
-            /* Calculate point hit */
-            rt_vectorMultiply(&normalizedDirection,t,&resultDirection);
-            rt_vectorAdd(&resultDirection,&(ray->position),pointHit);
+            if(t < EPSILON) return 0;
 
-            /* Calculate surface normal of the point hit */
-            rt_vectorSubstract(pointHit,&(s->position),normalHit);
+            /* t is not too close or behind the viewpoint */
+            return t;
+
+           // /* Calculate point hit */
+           // rt_vectorMultiply(&normalizedDirection,t,&resultDirection);
+           // rt_vectorAdd(&resultDirection,&(ray->position),pointHit);
+
+           // /* Calculate surface normal of the point hit */
+           // rt_vectorSubstract(pointHit,&(s->position),normalHit);
 
         } break;
         default:
