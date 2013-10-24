@@ -98,8 +98,8 @@ rt_printScene()
 
     printf("\n-_-_-_Intersection testing_-_-_-\n");
     Ray r; Object o; Sphere s; Vector n, p; float intersects;
-    r.position.x = 0.0;     r.direction.x = 1.0; s.position.x = -20.0;
-    r.position.y = 20.0;    r.direction.y = 1.0; s.position.y = 15.0;
+    r.position.x = 0.0;     r.direction.x = 0.0; s.position.x = 0.0;
+    r.position.y = 20.0;    r.direction.y = 0.0; s.position.y = 15.0;
     r.position.z = -80.0;   r.direction.z = 1.0; s.position.z = 10.0;
     s.radius = 30.0;
     o.type = t_sphere; o.object = &s;
@@ -336,13 +336,13 @@ float rt_intersect(Ray *ray,Object *object)
             Vector distance; float B, D, t;
 
             rt_vectorSubstract(&(s->position),&(ray->position),&distance);
-            printf("Distance: (%f,%f,%f)\n",distance.x,distance.y,distance.z);
+            printf("[DEBUG] Distance: (%f,%f,%f)\n",distance.x,distance.y,distance.z);
 
-            B = rt_dotProduct(&(ray->direction),&(s->position));
-            printf("B = %f\n",B);
+            B = rt_dotProduct(&(ray->direction),&distance);
+            printf("[DEBUG] B = %f\n",B);
             
             D = B*B - rt_dotProduct(&distance,&distance) + s->radius*s->radius;
-            printf("Discriminant: %f\n",D);
+            printf("[DEBUG] Discriminant: %f\n",D);
 
             /* No real roots, no intersection */
             if(D < 0) return 0;
@@ -356,9 +356,8 @@ float rt_intersect(Ray *ray,Object *object)
                 D = sqrt(D);
 
                 /* Smaller root first */
-                t = -B - D;
-
-                if(t < EPSILON) t = -B + D;
+                t = B - D;
+                if(t < EPSILON) t = B + D;
             }
 
             if(t < EPSILON) return 0;
