@@ -343,10 +343,8 @@ int rt_intersect(Ray *ray,Object *object,Vector *pointHit,Vector *normalHit)
             printf("Discriminant: %f\n",D);
 
             /* No real roots, no intersection */
-            if(D < 0)
-            {
-                return 0;
-            }
+            if(D < 0) return 0;
+
             /* Two roots */
             if(D > 0)
             {
@@ -366,10 +364,14 @@ int rt_intersect(Ray *ray,Object *object,Vector *pointHit,Vector *normalHit)
             }
             /* One root -> tangent of the sphere */
             t = -B;
+            if(t < 0) return 0;
 
             /* Calculate point hit */
             rt_vectorMultiply(&normalizedDirection,t,&resultDirection);
             rt_vectorAdd(&resultDirection,&(ray->position),pointHit);
+
+            /* Calculate surface normal of the point hit */
+            rt_vectorSubstract(pointHit,&(s->position),normalHit);
 
         } break;
         default:
