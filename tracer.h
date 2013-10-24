@@ -76,4 +76,5 @@ float rt_dotProduct(Vector *v1, Vector *v2);
 void rt_vectorNormalize(Vector *v,Vector *result);
 float rt_vectorLength(Vector *v);
 
-int rt_intersect(Ray *ray,Object *object,Vector *pointHit,Vector *normalHit);
+float rt_intersect(Ray *ray,Object *object);
+
