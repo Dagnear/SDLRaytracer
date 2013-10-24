@@ -366,8 +366,8 @@ float rt_intersect(Ray *ray,Object *object)
             return t;
 
            // /* Calculate point hit */
-           // rt_vectorMultiply(&normalizedDirection,t,&resultDirection);
-           // rt_vectorAdd(&resultDirection,&(ray->position),pointHit);
+           // rt_vectorMultiply(&normalizedDirection,t,&resultVector);
+           // rt_vectorAdd(&resultVector,&(ray->position),pointHit);
 
            // /* Calculate surface normal of the point hit */
            // rt_vectorSubstract(pointHit,&(s->position),normalHit);
@@ -383,4 +383,8 @@ float rt_intersect(Ray *ray,Object *object)
     return 0;    
 }
 
+/* Trace a color for single ray */
+void rt_trace(Ray *ray, int limit)
+{
 
+}
