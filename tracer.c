@@ -236,37 +236,27 @@ void rt_setObject(int num, Object *obj)
 }
 
 /*
- * Trace a single ray
- * limit for recursion
- */
-Pixel rt_trace(Ray *primaryRay, int limit)
-{
-    //Foo
-    return 0;
-}
-
-/*
  * Renders the scene
  */
-void rt_renderScene()
-{
-    int x,y;
-    Pixel pixel;
-    Ray ray;
-
-    ray.position.x = scene.cameraPosition.x - (scene.screenX/2);
-    ray.position.y = scene.cameraPosition.y - (scene.screenY/2);
-    ray.position.z = scene.cameraPosition.z;
-
-    for(y=0;y<scene.screenY;y++)
-    {
-        for(x=0;x<scene.screenX;x++)
-        {
-            pixel = rt_trace(&ray,0);
-            gfx_putPixel(x,y,pixel);
-        }
-    }
-}
+//void rt_renderScene()
+//{
+//    int x,y;
+//    Pixel pixel;
+//    Ray ray;
+//
+//    ray.position.x = scene.cameraPosition.x - (scene.screenX/2);
+//    ray.position.y = scene.cameraPosition.y - (scene.screenY/2);
+//    ray.position.z = scene.cameraPosition.z;
+//
+//    for(y=0;y<scene.screenY;y++)
+//    {
+//        for(x=0;x<scene.screenX;x++)
+//        {
+//            //pixel = rt_trace(&ray,0);
+//            //gfx_putPixel(x,y,pixel);
+//        }
+//    }
+//}
 
 /*
  * Vector math functions
