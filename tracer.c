@@ -103,6 +103,7 @@ rt_printScene()
     r.position.z = -80.0;   r.direction.z = 1.0; s.position.z = 10.0;
     s.radius = 30.0;
     o.type = t_sphere; o.object = &s;
+    rt_vectorNormalize(&r.direction,&r.direction);
 
     printf("Intersection of\n");
     printf("\t[RAY] Position: (%f,%f,%f) Direction: (%f,%f,%f)\n",
