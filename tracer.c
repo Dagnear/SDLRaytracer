@@ -158,6 +158,9 @@ rt_setCameraDirection(int x, int y, int z)
     scene.cameraDirection.x = x;
     scene.cameraDirection.y = y;
     scene.cameraDirection.z = z;
+
+    /* Normalize direction vector */
+    rt_vectorNormalize(&scene.cameraDirection,&scene.cameraDirection);
 }
 
 void rt_setLightCount(int count)
