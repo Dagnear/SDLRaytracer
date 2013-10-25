@@ -21,8 +21,12 @@ main(int argc, char **argv)
     printf("Hello raytracer\n");
 
     rt_initScene();
+    gfx_init(640,480,"Hello raytracer!");
+
+    atexit(cleanup);
+
     rt_setResolution(640,480);
-    rt_setCameraPosition(0,0,-80);
+    rt_setCameraPosition(0,-10,-80);
     rt_setCameraDirection(0,0,1);
     rt_setLightCount(1);
     rt_setObjectCount(1);
@@ -60,9 +64,6 @@ main(int argc, char **argv)
     rt_setLight(0,&l1);
     rt_setObject(0,&o1);
     rt_printScene();
-
-    gfx_init(640,480,"Hello raytracer!");
-    atexit(cleanup);
 
     Pixel yellow = gfx_createPixel(255,255,0);
     Pixel blue = gfx_createPixel(0,0,255);

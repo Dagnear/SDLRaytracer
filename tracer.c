@@ -13,7 +13,7 @@ void
 rt_printScene()
 {
     int i;
-    printf("-=-=-Scene-=-=-\n");
+    printf("-=-=-=-Scene-=-=-=-\n");
     printf("Resolution: %dx%d\n",scene.screenX,scene.screenY);
     printf("Camera position: %f,%f,%f\n",
         scene.cameraPosition.x,
@@ -68,7 +68,7 @@ rt_printScene()
         }
     }
 
-    printf("\n+-+-+-Vector math test-+-+-+\n");
+    printf("\n-=-=-=-Vector math test-=-=-=-\n");
     Vector v1,v2,v3; float scalar, result, len;
     v1.x = 4.0;   v2.x = 8.0;   v3.x = 0.0;
     v1.y = 3.0;   v2.y = 1.0;   v3.y = 0.0;
@@ -96,7 +96,7 @@ rt_printScene()
     rt_vectorNormalize(&v1,&v3);
     printf("normalize(v1) = (%f,%f,%f)\n",v3.x,v3.y,v3.z);
 
-    printf("\n-_-_-_Intersection testing_-_-_-\n");
+    printf("\n-=-=-=-Intersection testing-=-=-=-\n");
     Ray r; Object o; Sphere s; Vector n, p; float intersects;
     r.position.x = 0.0;     r.direction.x = 0.0; s.position.x = 0.0;
     r.position.y = 20.0;    r.direction.y = 0.0; s.position.y = 15.0;
@@ -115,6 +115,10 @@ rt_printScene()
     intersects = rt_intersect(&r,&o);
     printf("Result: %f\n",intersects);
 
+    printf("\n-=-=-=-Trace testing-=-=-=-\n");
+    rt_trace(&r,MAXRECURSION);
+
+    printf("\n_______END OF DEBUG_______\n");
 }
 
 void
@@ -419,6 +423,7 @@ Pixel rt_trace(Ray *ray, int recursions)
             lightDistance = rt_vectorLength(&(shadowRay.direction));
             rt_vectorNormalize(&(shadowRay.direction),&(shadowRay.direction));
 
+            printf("[DEBUG] Checking visibility for light %d\n",i);
             for(j=0;j<scene.objectCount;j++)
             {
                 /* Point is in shadow */
