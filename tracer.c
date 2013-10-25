@@ -379,7 +379,7 @@ Pixel rt_trace(Ray *ray, int recursions)
 {
     Object *object;
     Vector pointHit, normalHit;
-    float minDist, t; int i;
+    float minDist, t; int i,j;
 
     object = NULL;
     minDist = INFINITY;
@@ -387,7 +387,7 @@ Pixel rt_trace(Ray *ray, int recursions)
     /* Find out closest intersection, if any */
     for(i=0;i<scene.objectCount;i++)
     {
-        t = rt_intersect(ray,&scene.objects[i]);
+        t = rt_intersect(ray,&(scene.objects[i]));
         if(t > 0 && t < minDist)
         {
             minDist = t;
@@ -399,11 +399,29 @@ Pixel rt_trace(Ray *ray, int recursions)
     if(NULL != object)
     {
         /* Illumination */
-        Ray shadowRay; int inShadow;
+        Ray shadowRay; float lightDistance;
 
         /* Calculate point hit */
         rt_vectorMultiply(&(ray->direction),t,&pointHit);
         rt_vectorAdd(&pointHit,&(ray->position),&pointHit);
+
+        shadowRay.position.x = pointHit.x;
+        shadowRay.position.y = pointHit.y;
+        shadowRay.position.z = pointHit.z;
+
+        for(i=0;i<scene.lightCount;i++)
+        {
+            rt_vectorSubstract(&(scene.lights[i].position),&(shadowRay.position),&(shadowRay.direction));
+            lightDistance = rt_vectorLength(&(shadowRay.direction));
+            rt_vectorNormalize(&(shadowRay.direction),&(shadowRay.direction));
+
+            for(j=0;j<scene.objectCount;j++)
+            {
+                /* Point is in shadow */
+                if(rt_intersect(&shadowRay,&(scene.objects[j])) < lightDistance)
+                    return gfx_createPixel(0,0,0);
+            }
+        }
     }
 
     return 0;
