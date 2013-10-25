@@ -364,6 +364,7 @@ float rt_intersect(Ray *ray,Object *object)
 
         } break;
         default:
+            printf("[WARNING] Tried to calculate intersection for unkown object type: %d\n",object->type);
         break;
     }
 
@@ -376,5 +377,34 @@ float rt_intersect(Ray *ray,Object *object)
 /* Trace a color for single ray */
 Pixel rt_trace(Ray *ray, int recursions)
 {
+    Object *object;
+    Vector pointHit, normalHit;
+    float minDist, t; int i;
+
+    object = NULL;
+    minDist = INFINITY;
+    
+    /* Find out closest intersection, if any */
+    for(i=0;i<scene.objectCount;i++)
+    {
+        t = rt_intersect(ray,&scene.objects[i]);
+        if(t > 0 && t < minDist)
+        {
+            minDist = t;
+            object = &scene.objects[i];
+        }
+    }
+
+    /* If there was an intersection */
+    if(NULL != object)
+    {
+        /* Illumination */
+        Ray shadowRay; int inShadow;
+
+        /* Calculate point hit */
+        rt_vectorMultiply(&(ray->direction),t,&pointHit);
+        rt_vectorAdd(&pointHit,&(ray->position),&pointHit);
+    }
+
     return 0;
 }
