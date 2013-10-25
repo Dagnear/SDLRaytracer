@@ -98,8 +98,8 @@ rt_printScene()
 
     printf("\n-=-=-=-Intersection testing-=-=-=-\n");
     Ray r; Object o; Sphere s; Vector n, p; float intersects;
-    r.position.x = 0.0;     r.direction.x = 0.0; s.position.x = 0.0;
-    r.position.y = 20.0;    r.direction.y = 0.0; s.position.y = 15.0;
+    r.position.x = -10.0;     r.direction.x = 0.0; s.position.x = 0.0;
+    r.position.y = 5.0;    r.direction.y = 0.0; s.position.y = 15.0;
     r.position.z = -80.0;   r.direction.z = 1.0; s.position.z = 10.0;
     s.radius = 30.0;
     o.type = t_sphere; o.object = &s;
@@ -330,13 +330,13 @@ float rt_intersect(Ray *ray,Object *object)
             Vector distance; float B, D, t;
 
             rt_vectorSubstract(&(s->position),&(ray->position),&distance);
-            printf("[DEBUG] Distance: (%f,%f,%f)\n",distance.x,distance.y,distance.z);
+            //printf("[DEBUG] Distance: (%f,%f,%f)\n",distance.x,distance.y,distance.z);
 
             B = rt_dotProduct(&(ray->direction),&distance);
-            printf("[DEBUG] B = %f\n",B);
+            //printf("[DEBUG] B = %f\n",B);
             
             D = B*B - rt_dotProduct(&distance,&distance) + s->radius*s->radius;
-            printf("[DEBUG] Discriminant: %f\n",D);
+            //printf("[DEBUG] Discriminant: %f\n",D);
 
             /* No real roots, no intersection */
             if(D < 0) return 0;
@@ -396,7 +396,7 @@ Pixel rt_trace(Ray *ray, int recursions)
         {
             minDist = t;
             object = &scene.objects[i];
-            printf("[DEBUG] Intersection at: %f\n",minDist);
+            printf("[DEBUG] Minimum distance updated to: %f\n",minDist);
         }
     }
 
@@ -421,14 +421,23 @@ Pixel rt_trace(Ray *ray, int recursions)
             inShadow = 0;
             rt_vectorSubstract(&(scene.lights[i].position),&(shadowRay.position),&(shadowRay.direction));
             lightDistance = rt_vectorLength(&(shadowRay.direction));
-            rt_vectorNormalize(&(shadowRay.direction),&(shadowRay.direction));
+            //rt_vectorNormalize(&(shadowRay.direction),&(shadowRay.direction));
 
             printf("[DEBUG] Checking visibility for light %d\n",i);
+            printf("\tLight: (%f,%f,%f) Point hit:(%f,%f,%f)\n",
+                scene.lights[i].position.x, scene.lights[i].position.y, scene.lights[i].position.z,
+                shadowRay.position.x,shadowRay.position.y,shadowRay.position.z);
+            printf("\tShadow ray direction (%f,%f,%f)\n",
+            shadowRay.direction.x,shadowRay.direction.y,shadowRay.direction.z);
             for(j=0;j<scene.objectCount;j++)
             {
                 /* Point is in shadow */
-                if(rt_intersect(&shadowRay,&(scene.objects[j])) < lightDistance)
-                    inShadow = 1;
+                if((t = rt_intersect(&shadowRay,&(scene.objects[j]))) > 0)
+                {
+                    if(t < lightDistance)
+                        inShadow = 1;
+                    printf("\tinShadow = %d\n",inShadow);
+                }
             }
 
             /* This light reaches the object */
