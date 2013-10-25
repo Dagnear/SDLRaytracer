@@ -3,7 +3,7 @@ CC = gcc
 LDFLAGS = -lSDL
 CFLAGS = -Wall -g
 
-SRC = main.c input.c gfx.c tracer.c
+SRC = main.c input.c gfx.c pixel.c tracer.c
 OBJ = $(SRC:.c=.o)
 TARGET = raytracer.elf
 

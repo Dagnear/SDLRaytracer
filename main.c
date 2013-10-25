@@ -4,6 +4,7 @@
 #include "gfx.h"
 #include "tracer.h"
 #include "input.h"
+#include "pixel.h"
 
 void
 cleanup()
@@ -48,8 +49,8 @@ main(int argc, char **argv)
     gfx_init(640,480,"Hello raytracer!");
     atexit(cleanup);
 
-    Pixel yellow = gfx_getPixel(255,255,0);
-    Pixel blue = gfx_getPixel(0,0,255);
+    Pixel yellow = gfx_createPixel(255,255,0);
+    Pixel blue = gfx_createPixel(0,0,255);
 
     gfx_lockBuffer();
     gfx_fillBuffer(blue);
