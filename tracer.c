@@ -392,6 +392,7 @@ Pixel rt_trace(Ray *ray, int recursions)
         {
             minDist = t;
             object = &scene.objects[i];
+            printf("[DEBUG] Intersection at: %f\n",minDist);
         }
     }
 
@@ -400,6 +401,7 @@ Pixel rt_trace(Ray *ray, int recursions)
     {
         /* Illumination */
         Ray shadowRay; float lightDistance;
+        int inShadow; float brightness;
 
         /* Calculate point hit */
         rt_vectorMultiply(&(ray->direction),t,&pointHit);
@@ -409,8 +411,10 @@ Pixel rt_trace(Ray *ray, int recursions)
         shadowRay.position.y = pointHit.y;
         shadowRay.position.z = pointHit.z;
 
+        brightness = 0;
         for(i=0;i<scene.lightCount;i++)
         {
+            inShadow = 0;
             rt_vectorSubstract(&(scene.lights[i].position),&(shadowRay.position),&(shadowRay.direction));
             lightDistance = rt_vectorLength(&(shadowRay.direction));
             rt_vectorNormalize(&(shadowRay.direction),&(shadowRay.direction));
@@ -419,10 +423,23 @@ Pixel rt_trace(Ray *ray, int recursions)
             {
                 /* Point is in shadow */
                 if(rt_intersect(&shadowRay,&(scene.objects[j])) < lightDistance)
-                    return gfx_createPixel(0,0,0);
+                    inShadow = 1;
+            }
+
+            /* This light reaches the object */
+            if(0 == inShadow)
+            {
+                /* TODO: Should depend on the angle */
+                brightness += scene.lights[i].intensity;
             }
         }
-    }
+        printf("[DEBUG] Got brightness %f\n",brightness);
 
-    return 0;
+        /* Placeholder for color support */
+        if(brightness > 0)
+            return gfx_createPixel(255,0,0);
+    }
+    
+    /* No object was hit */
+    return gfx_createPixel(0,0,0);
 }
