@@ -3,9 +3,9 @@
 /* Structures */
 typedef struct
 {
-    float x;
-    float y;
-    float z;
+    double x;
+    double y;
+    double z;
 } Vector;
 
 /* Ray of 'light' */
@@ -18,7 +18,7 @@ typedef struct
 typedef struct
 {
     Vector position;
-    float intensity;
+    double intensity;
 } Light;
 
 /* Enumertions for different entity types
@@ -40,7 +40,7 @@ typedef struct
 typedef struct
 {
     Vector position;
-    float radius;
+    double radius;
 } Sphere;
 
 /* Components of a scene */
@@ -73,10 +73,10 @@ void rt_setResolution(int w, int h);
 
 void rt_vectorSubstract(Vector *v1, Vector *v2, Vector *result);
 void rt_vectorAdd(Vector *v1, Vector *v2, Vector *result);
-void rt_vectorMultiply(Vector *v1, float scalar, Vector *result);
-float rt_dotProduct(Vector *v1, Vector *v2);
+void rt_vectorMultiply(Vector *v1, double scalar, Vector *result);
+double rt_dotProduct(Vector *v1, Vector *v2);
 void rt_vectorNormalize(Vector *v,Vector *result);
-float rt_vectorLength(Vector *v);
+double rt_vectorLength(Vector *v);
 
-float rt_intersect(Ray *ray,Object *object);
+double rt_intersect(Ray *ray,Object *object);
 Pixel rt_trace(Ray *ray, int recursions);

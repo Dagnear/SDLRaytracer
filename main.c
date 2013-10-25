@@ -19,6 +19,8 @@ main(int argc, char **argv)
     int run;
 
     printf("Hello raytracer\n");
+    printf("sizeof(long double) = %lu,sizeof(double) = %lu, sizeof(float) = %lu\n",
+        sizeof(long double),sizeof(double),sizeof(float));
 
     rt_initScene();
     gfx_init(640,480,"Hello raytracer!");
