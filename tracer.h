@@ -1,3 +1,5 @@
+#include "pixel.h"
+
 /* Structures */
 typedef struct
 {
@@ -77,4 +79,4 @@ void rt_vectorNormalize(Vector *v,Vector *result);
 float rt_vectorLength(Vector *v);
 
 float rt_intersect(Ray *ray,Object *object);
-void rt_trace(Ray *ray, int recursions);
+Pixel rt_trace(Ray *ray, int recursions);

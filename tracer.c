@@ -374,7 +374,7 @@ float rt_intersect(Ray *ray,Object *object)
 }
 
 /* Trace a color for single ray */
-void rt_trace(Ray *ray, int recursions)
+Pixel rt_trace(Ray *ray, int recursions)
 {
-
+    return 0;
 }
