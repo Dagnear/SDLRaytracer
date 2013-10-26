@@ -98,8 +98,8 @@ rt_printScene()
 
     printf("\n-=-=-=-Intersection testing-=-=-=-\n");
     Ray r; Object o; Sphere s; Vector n, p; double intersects;
-    r.position.x = -10.0;     r.direction.x = 0.0; s.position.x = 0.0;
-    r.position.y = 5.0;    r.direction.y = 0.0; s.position.y = 15.0;
+    r.position.x = -30.0;     r.direction.x = 0.0; s.position.x = 0.0;
+    r.position.y = 0.0;    r.direction.y = 0.0; s.position.y = 15.0;
     r.position.z = -80.0;   r.direction.z = 1.0; s.position.z = 10.0;
     s.radius = 30.0;
     o.type = t_sphere; o.object = &s;
@@ -335,17 +335,17 @@ double rt_intersect(Ray *ray,Object *object)
             B = rt_dotProduct(&(ray->direction),&distance);
             printf("[DEBUG] B = %f\n",B);
             
-            D = B*B - rt_dotProduct(&distance,&distance) + s->radius*s->radius;
+            D = B*B - rt_dotProduct(&distance,&distance) + (s->radius)*(s->radius);
             printf("[DEBUG] Discriminant: %f\n",D);
 
             /* No real roots, no intersection */
-            if(D < 0) return 0;
+            if(D < 0.0) return 0;
 
             /* One root -> tangent of the sphere */
-            if(0 == D) t = -B;
+            if(0.0 == D) t = B;
 
             /* Two roots */
-            if(D > 0)
+            if(D > 0.0)
             {
                 D = sqrt(D);
 
@@ -429,6 +429,7 @@ Pixel rt_trace(Ray *ray, int recursions)
                 shadowRay.position.x,shadowRay.position.y,shadowRay.position.z);
             printf("\tShadow ray direction (%f,%f,%f)\n",
                 shadowRay.direction.x,shadowRay.direction.y,shadowRay.direction.z);
+
             for(j=0;j<scene.objectCount;j++)
             {
                 printf("[DEBUG] Object %d\n",j);
@@ -438,6 +439,10 @@ Pixel rt_trace(Ray *ray, int recursions)
                     if(t < lightDistance)
                         inShadow = 1;
                     printf("\tinShadow = %d, t = %f, lightDistance = %f\n",inShadow,t,lightDistance);
+                    printf("\tPoint: (%f,%f,%f)\n",
+                        shadowRay.position.x + shadowRay.direction.x*t,
+                        shadowRay.position.y + shadowRay.direction.y*t,
+                        shadowRay.position.z + shadowRay.direction.z*t);
                 }
             }
 
