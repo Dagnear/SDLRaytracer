@@ -408,7 +408,7 @@ Pixel rt_trace(Ray *ray, int recursions)
         int inShadow; double brightness;
 
         /* Calculate point hit */
-        rt_vectorMultiply(&(ray->direction),t,&pointHit);
+        rt_vectorMultiply(&(ray->direction),minDist,&pointHit);
         rt_vectorAdd(&pointHit,&(ray->position),&pointHit);
 
         shadowRay.position.x = pointHit.x;
