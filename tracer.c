@@ -98,8 +98,8 @@ rt_printScene()
 
     printf("\n-=-=-=-Intersection testing-=-=-=-\n");
     Ray r; Object o; Sphere s; Vector n, p; double intersects;
-    r.position.x = -30.0;     r.direction.x = 0.0; s.position.x = 0.0;
-    r.position.y = 0.0;    r.direction.y = 0.0; s.position.y = 15.0;
+    r.position.x = -10.0;     r.direction.x = 0.0; s.position.x = 0.0;
+    r.position.y = 5.0;    r.direction.y = 0.0; s.position.y = 15.0;
     r.position.z = -80.0;   r.direction.z = 1.0; s.position.z = 10.0;
     s.radius = 30.0;
     o.type = t_sphere; o.object = &s;
@@ -138,8 +138,7 @@ rt_initScene()
     scene.lightCount = 0;
     scene.lights = NULL;
 
-    scene.objectCount = 0;
-    scene.objects = NULL;
+    scene.objectCount = 0; scene.objects = NULL;
 }
 
 void
@@ -329,7 +328,8 @@ double rt_intersect(Ray *ray,Object *object)
              */
             Vector distance; double B, D, t;
 
-            rt_vectorSubstract(&(s->position),&(ray->position),&distance);
+            //rt_vectorSubstract(&(s->position),&(ray->position),&distance);
+            rt_vectorSubstract(&(ray->position),&(s->position),&distance);
             printf("[DEBUG] Distance: (%f,%f,%f)\n",distance.x,distance.y,distance.z);
 
             B = rt_dotProduct(&(ray->direction),&distance);
@@ -342,16 +342,17 @@ double rt_intersect(Ray *ray,Object *object)
             if(D < 0.0) return 0;
 
             /* One root -> tangent of the sphere */
-            if(0.0 == D) t = B;
+            if(0.0 == D) t = -B;
 
             /* Two roots */
             if(D > 0.0)
             {
                 D = sqrt(D);
+                printf("[DEBUG] t0 = %f, t1 = %1f\n",-B-D,-B+D);
 
                 /* Smaller root first */
-                t = B - D;
-                if(t < EPSILON) t = B + D;
+                t = -B - D;
+                if(t < EPSILON) t = -B + D;
             }
 
             if(t < EPSILON) return 0;
@@ -392,7 +393,7 @@ Pixel rt_trace(Ray *ray, int recursions)
     for(i=0;i<scene.objectCount;i++)
     {
         t = rt_intersect(ray,&(scene.objects[i]));
-        if(t > 0 && t < minDist)
+        if(t > 0.0 && t < minDist)
         {
             minDist = t;
             object = &scene.objects[i];
@@ -422,6 +423,10 @@ Pixel rt_trace(Ray *ray, int recursions)
             rt_vectorSubstract(&(scene.lights[i].position),&(shadowRay.position),&(shadowRay.direction));
             lightDistance = rt_vectorLength(&(shadowRay.direction));
             rt_vectorNormalize(&(shadowRay.direction),&(shadowRay.direction));
+            printf("[DEBUG] From poinHit to light (%f,%f,%f)\n",
+                shadowRay.direction.x*lightDistance,
+                shadowRay.direction.y*lightDistance,
+                shadowRay.direction.z*lightDistance);
 
             printf("[DEBUG] Checking visibility for light %d\n",i);
             printf("\tLight: (%f,%f,%f) Point hit:(%f,%f,%f)\n",

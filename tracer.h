@@ -79,4 +79,5 @@ void rt_vectorNormalize(Vector *v,Vector *result);
 double rt_vectorLength(Vector *v);
 
 double rt_intersect(Ray *ray,Object *object);
+double rt_illumination(Vector *pointHit, Vector *normalHit);
 Pixel rt_trace(Ray *ray, int recursions);
