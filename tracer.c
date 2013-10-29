@@ -194,6 +194,8 @@ void rt_setObjectCount(int count)
         scene.objects[i].color.r = 0;
         scene.objects[i].color.g = 0;
         scene.objects[i].color.b = 0;
+        scene.objects[i].reflection = 0;
+        scene.objects[i].transparency = 0;
     }
 }
 
@@ -240,6 +242,8 @@ void rt_setObject(int num, Object *obj)
         scene.objects[num].color.r = obj->color.r;
         scene.objects[num].color.g = obj->color.g;
         scene.objects[num].color.b = obj->color.b;
+        scene.objects[num].reflection = obj->reflection;
+        scene.objects[num].transparency = obj->transparency;
     }
     else
     {
@@ -472,23 +476,32 @@ Pixel rt_trace(Ray *ray, int recursions)
         brightness = rt_illumination(&pointHit,&normalHit);
 
        // printf("[DEBUG] Got brightness %f\n",brightness);
-
-        /* Calculate color */
-        if(brightness > 0)
+        
+        /* Object is reflective or transparent */
+        if(object->reflection > 0 || object->transparency > 0)
         {
-            r = object->color.r;
-            g = object->color.g;
-            b = object->color.b;
-            
-            r = (int) r*brightness+0.5;
-            g = (int) g*brightness+0.5;
-            b = (int) b*brightness+0.5;
 
-            printf("\tcolor (%d,%d,%d) to (%d,%d,%d)\n",
-                object->color.r,object->color.g,object->color.b,
-                r,g,b);
+        }
+        /* Diffuse object */
+        else
+        {
+            /* Calculate color */
+            if(brightness > 0)
+            {
+                r = object->color.r;
+                g = object->color.g;
+                b = object->color.b;
+                
+                r = (int) r*brightness+0.5;
+                g = (int) g*brightness+0.5;
+                b = (int) b*brightness+0.5;
 
-            return gfx_createPixel(r,g,b);
+                printf("\tcolor (%d,%d,%d) to (%d,%d,%d)\n",
+                    object->color.r,object->color.g,object->color.b,
+                    r,g,b);
+
+                return gfx_createPixel(r,g,b);
+            }
         }
     }
     

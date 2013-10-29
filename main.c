@@ -40,9 +40,9 @@ main(int argc, char **argv)
     l1.intensity = 0.80;
 
     Light l2;
-    l2.position.x = 90.0;
-    l2.position.y = 90.0;
-    l2.position.z = -20.0;
+    l2.position.x = 80.0;
+    l2.position.y = -100.0;
+    l2.position.z = -60.0;
     l2.intensity = 0.80;
 
     Object o1;
@@ -53,9 +53,11 @@ main(int argc, char **argv)
     s1.radius = 80.0;
     o1.type = t_sphere;
     o1.object = &s1;
-    o1.color.r = 170;
+    o1.color.r = 0;
     o1.color.g = 120;
-    o1.color.b = 0;
+    o1.color.b = 200;
+    o1.reflection = 0;
+    o1.transparency = 0;
 
     Object o2;
     Sphere s2;
@@ -68,6 +70,8 @@ main(int argc, char **argv)
     o2.color.r = 255;
     o2.color.g = 0;
     o2.color.b = 0;
+    o2.reflection = 0;
+    o2.transparency = 0;
 
     rt_setLight(0,&l1);
     rt_setLight(1,&l2);
