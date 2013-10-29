@@ -28,20 +28,20 @@ main(int argc, char **argv)
     atexit(cleanup);
 
     rt_setResolution(640,480);
-    rt_setCameraPosition(0,-10,-80);
+    rt_setCameraPosition(0,0,-80);
     rt_setCameraDirection(0,0,1);
     rt_setLightCount(2);
     rt_setObjectCount(1);
 
     Light l1;
-    l1.position.x = -80.0;
-    l1.position.y = 0.0;
+    l1.position.x = -60.0;
+    l1.position.y = 60.0;
     l1.position.z = 0.0;
     l1.intensity = 0.80;
 
     Light l2;
-    l2.position.x = 80.0;
-    l2.position.y = 0.0;
+    l2.position.x = 60.0;
+    l2.position.y = 60.0;
     l2.position.z = 0.0;
     l2.intensity = 0.80;
 

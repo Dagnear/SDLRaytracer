@@ -78,6 +78,7 @@ double rt_dotProduct(Vector *v1, Vector *v2);
 void rt_vectorNormalize(Vector *v,Vector *result);
 double rt_vectorLength(Vector *v);
 
+void rt_surfaceNormal(Object *object, Vector *pointHit, Vector *normalHit);
 double rt_intersect(Ray *ray,Object *object);
 double rt_illumination(Vector *pointHit, Vector *normalHit);
 Pixel rt_trace(Ray *ray, int recursions);
