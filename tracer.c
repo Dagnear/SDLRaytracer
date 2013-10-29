@@ -493,13 +493,17 @@ Color rt_trace(Ray *ray, int recursions)
                 rt_vectorAdd(&(reflectionRay.direction),&(ray->direction),&(reflectionRay.direction));
                 rt_vectorSubstract(&(ray->direction),&(reflectionRay.direction),&(reflectionRay.direction));
 
-
                 reflectionColor = rt_trace(&reflectionRay, recursions-1);
+
             }
             if(object->transparency > 0)
             {
                 //TODO
             }
+
+            c.r = (1 - (object->reflection)) * object->color.r + (reflectionColor.r * object->reflection);
+            c.g = (1 - (object->reflection)) * object->color.g + (reflectionColor.g * object->reflection);
+            c.b = (1 - (object->reflection)) * object->color.b + (reflectionColor.b * object->reflection);
         }
         /* Diffuse object */
         else
@@ -518,13 +522,10 @@ Color rt_trace(Ray *ray, int recursions)
                 printf("\tcolor (%d,%d,%d) to (%d,%d,%d)\n",
                     object->color.r,object->color.g,object->color.b,
                     c.r,c.g,c.b);
-
-                return c;
             }
         }
     }
     
-    /* No object was hit */
     return c;
 }
 
