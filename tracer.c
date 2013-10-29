@@ -189,7 +189,12 @@ void rt_setObjectCount(int count)
     scene.objects = (Object *)malloc(sizeof(Object)*count);
 
     for(i=0;i<count;i++)
+    {
         scene.objects[i].type = t_null;
+        scene.objects[i].color.r = 0;
+        scene.objects[i].color.g = 0;
+        scene.objects[i].color.b = 0;
+    }
 }
 
 void rt_cleanup()
@@ -232,6 +237,9 @@ void rt_setObject(int num, Object *obj)
     {
         scene.objects[num].type = obj->type;
         scene.objects[num].object = obj->object;
+        scene.objects[num].color.r = obj->color.r;
+        scene.objects[num].color.g = obj->color.g;
+        scene.objects[num].color.b = obj->color.b;
     }
     else
     {
@@ -338,14 +346,14 @@ double rt_intersect(Ray *ray,Object *object)
 
             B = rt_dotProduct(&(ray->direction),&distance);
             
-            printf("[DEBUG] Distance (%f,%f,%f) RayDirection dot Distance = %f\n",
-                distance.x,distance.y,distance.z,B);
+           // printf("[DEBUG] Distance (%f,%f,%f) RayDirection dot Distance = %f\n",
+           //     distance.x,distance.y,distance.z,B);
             /* Ray direction is not going towards origo */
             if(B < 0.0) return 0.0;
             
             D = rt_dotProduct(&distance,&distance) - B*B;
             radius2 = (s->radius)*(s->radius);
-            printf("[DEBUG] D = %f, B = %f\n",D,B);
+           // printf("[DEBUG] D = %f, B = %f\n",D,B);
 
             /* No real roots, no intersection */
             if(D > radius2) return 0.0;
@@ -358,13 +366,6 @@ double rt_intersect(Ray *ray,Object *object)
 
             /* t is not too close or behind the viewpoint */
             return t;
-
-           // /* Calculate point hit */
-           // rt_vectorMultiply(&normalizedDirection,t,&resultVector);
-           // rt_vectorAdd(&resultVector,&(ray->position),pointHit);
-
-           // /* Calculate surface normal of the point hit */
-           // rt_vectorSubstract(pointHit,&(s->position),normalHit);
 
         } break;
         default:
@@ -398,28 +399,28 @@ double rt_illumination(Vector *pointHit, Vector *normalHit)
         light.x = scene.lights[i].position.x;
         light.y = scene.lights[i].position.y;
         light.z = scene.lights[i].position.z;
-        printf("[DEBUG] Light position (%f,%f,%f)\n",light.x,light.y,light.z);
+        //printf("[DEBUG] Light position (%f,%f,%f)\n",light.x,light.y,light.z);
 
         rt_vectorSubstract(&(light),&(shadowRay.position),&(shadowRay.direction));
         lightDistance =  rt_vectorLength(&(shadowRay.direction));
         rt_vectorNormalize(&(shadowRay.direction),&(shadowRay.direction));
 
-        printf("[DEBUG] Shadow ray position(%f,%f,%f) direction(%f,%f,%f)\n",
-            shadowRay.position.x,shadowRay.position.y,shadowRay.position.z,
-            shadowRay.direction.x,shadowRay.direction.y,shadowRay.direction.z);
-        printf("\tLight distance %f\n",lightDistance);
-        dot = rt_dotProduct(normalHit,&(shadowRay.direction));
-        printf("\tDot = %f\n",dot);
+       // printf("[DEBUG] Shadow ray position(%f,%f,%f) direction(%f,%f,%f)\n",
+       //     shadowRay.position.x,shadowRay.position.y,shadowRay.position.z,
+       //     shadowRay.direction.x,shadowRay.direction.y,shadowRay.direction.z);
+       // printf("\tLight distance %f\n",lightDistance);
+       // dot = rt_dotProduct(normalHit,&(shadowRay.direction));
+       // printf("\tDot = %f\n",dot);
 
         inShadow = 0;
         for(j=0;j<scene.objectCount;j++)
         {
-            printf("[DEBUG] Intersection with objects[%d]\n",j);
+            //printf("[DEBUG] Intersection with objects[%d]\n",j);
             t = rt_intersect(&shadowRay,&(scene.objects[j])); 
             if(t > 0.0 && t < lightDistance)
                 inShadow = 1;
 
-            printf("\tt=%f inShadow=%d\n",t,inShadow);
+           // printf("\tt=%f inShadow=%d\n",t,inShadow);
         }
 
         if(0 == inShadow)
@@ -448,10 +449,10 @@ Pixel rt_trace(Ray *ray, int recursions)
         {
             minDist = t;
             object = &scene.objects[i];
-            printf("[DEBUG] Minimum distance updated to: %f\n",minDist);
+            //printf("[DEBUG] Minimum distance updated to: %f\n",minDist);
         }
     }
-    if(NULL == object) printf("[DEBUG] No object intersects\n");
+    //if(NULL == object) printf("[DEBUG] No object intersects\n");
     /* If there was an intersection */
     if(NULL != object)
     {
@@ -464,19 +465,29 @@ Pixel rt_trace(Ray *ray, int recursions)
         /* Calculate normal hit */
         rt_surfaceNormal(object,&pointHit,&normalHit);
 
-        printf("[DEBUG] Point hit(%f,%f,%f) Normal hit(%f,%f,%f)\n",
-            pointHit.x,pointHit.y,pointHit.z,
-            normalHit.x,normalHit.y,normalHit.z);
+       // printf("[DEBUG] Point hit(%f,%f,%f) Normal hit(%f,%f,%f)\n",
+       //     pointHit.x,pointHit.y,pointHit.z,
+       //     normalHit.x,normalHit.y,normalHit.z);
 
         brightness = rt_illumination(&pointHit,&normalHit);
 
         printf("[DEBUG] Got brightness %f\n",brightness);
 
-        /* Placeholder for color support */
+        /* Calculate color */
         if(brightness > 0)
         {
-            g = b = 0;
-            r = (int) 255*brightness+0.5;
+            r = object->color.r;
+            g = object->color.g;
+            b = object->color.b;
+            
+            r = (int) r*brightness+0.5;
+            g = (int) g*brightness+0.5;
+            b = (int) b*brightness+0.5;
+
+            printf("\tcolor (%d,%d,%d) to (%d,%d,%d)\n",
+                object->color.r,object->color.g,object->color.b,
+                r,g,b);
+
             return gfx_createPixel(r,g,b);
         }
     }

@@ -53,6 +53,9 @@ main(int argc, char **argv)
     s1.radius = 80.0;
     o1.type = t_sphere;
     o1.object = &s1;
+    o1.color.r = 170;
+    o1.color.g = 120;
+    o1.color.b = 0;
 
     Object o2;
     Sphere s2;
@@ -62,6 +65,9 @@ main(int argc, char **argv)
     s2.radius = 7.0;
     o2.type = t_sphere;
     o2.object = &s2;
+    o2.color.r = 255;
+    o2.color.g = 0;
+    o2.color.b = 0;
 
     rt_setLight(0,&l1);
     rt_setLight(1,&l2);
