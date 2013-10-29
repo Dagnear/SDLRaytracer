@@ -474,13 +474,12 @@ Color rt_trace(Ray *ray, int recursions)
        //     normalHit.x,normalHit.y,normalHit.z);
 
         brightness = rt_illumination(&pointHit,&normalHit);
-
        // printf("[DEBUG] Got brightness %f\n",brightness);
         
         /* Object is reflective or transparent */
         if((object->reflection > 0 || object->transparency > 0) && (recursions > 0))
         {
-            Color reflectionColor,refractionColor;
+            Color reflectionColor, refractionColor, diffuseColor;
             Ray reflectionRay, refractionRay;
 
             if(object->reflection > 0)
@@ -491,7 +490,7 @@ Color rt_trace(Ray *ray, int recursions)
 
                 rt_vectorMultiply(&normalHit,2,&(reflectionRay.direction));
                 rt_vectorAdd(&(reflectionRay.direction),&(ray->direction),&(reflectionRay.direction));
-                rt_vectorSubstract(&(ray->direction),&(reflectionRay.direction),&(reflectionRay.direction));
+                rt_vectorSubstract(&(reflectionRay.direction),&(ray->direction),&(reflectionRay.direction));
 
                 reflectionColor = rt_trace(&reflectionRay, recursions-1);
 
@@ -501,9 +500,26 @@ Color rt_trace(Ray *ray, int recursions)
                 //TODO
             }
 
-            c.r = (1 - (object->reflection)) * object->color.r + (reflectionColor.r * object->reflection);
-            c.g = (1 - (object->reflection)) * object->color.g + (reflectionColor.g * object->reflection);
-            c.b = (1 - (object->reflection)) * object->color.b + (reflectionColor.b * object->reflection);
+            c.r = (int) (reflectionColor.r * (object->reflection)) + 0.5;
+            c.g = (int) (reflectionColor.g * (object->reflection)) + 0.5;
+            c.b = (int) (reflectionColor.b * (object->reflection)) + 0.5;
+            
+            if(brightness > 0)
+            {
+                diffuseColor.r = (int) ((1 - (object->reflection)) * (object->color.r * brightness) + 0.5);
+                diffuseColor.g = (int) ((1 - (object->reflection)) * (object->color.g * brightness) + 0.5);
+                diffuseColor.b = (int) ((1 - (object->reflection)) * (object->color.b * brightness) + 0.5);
+
+                c.r += diffuseColor.r;
+                c.g += diffuseColor.g;
+                c.b += diffuseColor.b;
+
+                if(reflectionColor.r + reflectionColor.g + reflectionColor.b > 60)
+                    printf("[DEBUG] Reflection Color(%d,%d,%d) Diffuse Color(%d,%d,%d)\n\tFinal color: (%d,%d,%d) Brightness : %f\n",
+                    reflectionColor.r,reflectionColor.g,reflectionColor.b,
+                    diffuseColor.r,diffuseColor.g,diffuseColor.b,
+                    c.r,c.g,c.b,brightness);
+            }
         }
         /* Diffuse object */
         else
@@ -518,10 +534,6 @@ Color rt_trace(Ray *ray, int recursions)
                 c.r = (int) c.r*brightness+0.5;
                 c.g = (int) c.g*brightness+0.5;
                 c.b = (int) c.b*brightness+0.5;
-
-                printf("\tcolor (%d,%d,%d) to (%d,%d,%d)\n",
-                    object->color.r,object->color.g,object->color.b,
-                    c.r,c.g,c.b);
             }
         }
     }

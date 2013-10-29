@@ -31,52 +31,67 @@ main(int argc, char **argv)
     rt_setCameraPosition(0,0,-100);
     rt_setCameraDirection(0,0,1);
     rt_setLightCount(2);
-    rt_setObjectCount(2);
+    rt_setObjectCount(3);
 
     Light l1;
-    l1.position.x = -140.0;
-    l1.position.y = -140.0;
-    l1.position.z = -140.0;
+    l1.position.x = 160.0;
+    l1.position.y = -150.0;
+    l1.position.z = -290.0;
     l1.intensity = 0.80;
 
     Light l2;
-    l2.position.x = 80.0;
-    l2.position.y = -100.0;
-    l2.position.z = -60.0;
+    l2.position.x = -160.0;
+    l2.position.y = -150.0;
+    l2.position.z = -290.0;
     l2.intensity = 0.80;
 
     Object o1;
     Sphere s1;
-    s1.position.x = 0.0;
-    s1.position.y = 0.0;
+    s1.position.x = 60.0;
+    s1.position.y = -60.0;
     s1.position.z = 0.0;
     s1.radius = 80.0;
     o1.type = t_sphere;
     o1.object = &s1;
     o1.color.r = 0;
-    o1.color.g = 120;
+    o1.color.g = 0;
     o1.color.b = 200;
-    o1.reflection = 0;
+    o1.reflection = 0.8;
     o1.transparency = 0;
 
     Object o2;
     Sphere s2;
-    s2.position.x = -90.0;
-    s2.position.y = -90.0;
-    s2.position.z = -90.0;
-    s2.radius = 7.0;
+    s2.position.x = -60.0;
+    s2.position.y = -60.0;
+    s2.position.z = 0.0;
+    s2.radius = 80.0;
     o2.type = t_sphere;
     o2.object = &s2;
-    o2.color.r = 255;
+    o2.color.r = 200;
     o2.color.g = 0;
     o2.color.b = 0;
     o2.reflection = 0;
     o2.transparency = 0;
 
+    Object o3;
+    Sphere s3;
+    s3.position.x = 0.0;
+    s3.position.y = 60.0;
+    s3.position.z = 0.0;
+    s3.radius = 80.0;
+    o3.type = t_sphere;
+    o3.object = &s3;
+    o3.color.r = 0;
+    o3.color.g = 100;
+    o3.color.b = 0;
+    o3.reflection = 0;
+    o3.transparency = 0;
+
     rt_setLight(0,&l1);
     rt_setLight(1,&l2);
     rt_setObject(0,&o1);
     rt_setObject(1,&o2);
+    rt_setObject(2,&o3);
     rt_printScene();
 
     Pixel p[640*480];
