@@ -43,8 +43,8 @@ typedef struct
     enum t_object type;
     void *object;
     Color color;
-    int reflection;
-    int transparency;
+    double reflection;
+    double transparency;
 } Object;
 
 typedef struct
