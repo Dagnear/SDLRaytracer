@@ -471,7 +471,7 @@ Pixel rt_trace(Ray *ray, int recursions)
 
         brightness = rt_illumination(&pointHit,&normalHit);
 
-        printf("[DEBUG] Got brightness %f\n",brightness);
+       // printf("[DEBUG] Got brightness %f\n",brightness);
 
         /* Calculate color */
         if(brightness > 0)
@@ -483,9 +483,6 @@ Pixel rt_trace(Ray *ray, int recursions)
             r = (int) r*brightness+0.5;
             g = (int) g*brightness+0.5;
             b = (int) b*brightness+0.5;
-            if(r > 255) r = 255;
-            if(g > 255) g = 255;
-            if(b > 255) b = 255;
 
             printf("\tcolor (%d,%d,%d) to (%d,%d,%d)\n",
                 object->color.r,object->color.g,object->color.b,
