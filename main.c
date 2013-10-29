@@ -35,7 +35,7 @@ main(int argc, char **argv)
 
     Light l1;
     l1.position.x = -60.0;
-    l1.position.y = 60.0;
+    l1.position.y = -60.0;
     l1.position.z = 0.0;
     l1.intensity = 0.80;
 
@@ -68,12 +68,22 @@ main(int argc, char **argv)
     rt_setObject(0,&o1);
     rt_printScene();
 
-    Pixel yellow = gfx_createPixel(255,255,0);
-    Pixel blue = gfx_createPixel(0,0,255);
+    Pixel p[640*480];
+    rt_renderScene(&p);
+    //Pixel yellow = gfx_createPixel(255,255,0);
+    //Pixel blue = gfx_createPixel(0,0,255);
 
     gfx_lockBuffer();
-    gfx_fillBuffer(blue);
-    gfx_putPixel(50,50,yellow);
+    //gfx_fillBuffer(blue);
+    
+    int x,y;
+    for(y=0;y<480;y++)
+    {
+        for(x=0;x<640;x++)
+        {
+            gfx_putPixel(x,y,p[y*640+x]);
+        }
+    }
     gfx_unlockBuffer();
     gfx_update();
 
