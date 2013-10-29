@@ -334,32 +334,26 @@ double rt_intersect(Ray *ray,Object *object)
              */
             Vector distance; double B, D, t, radius2;
 
-            rt_vectorSubstract(&(ray->position),&(s->position),&distance);
+            rt_vectorSubstract(&(s->position),&(ray->position),&distance);
 
             B = rt_dotProduct(&(ray->direction),&distance);
             
             printf("[DEBUG] Distance (%f,%f,%f) RayDirection dot Distance = %f\n",
                 distance.x,distance.y,distance.z,B);
             /* Ray direction is not going towards origo */
-            //if(B < 0.0) return 0.0;
+            if(B < 0.0) return 0.0;
             
-            //D = rt_dotProduct(&distance,&distance) - B*B;
+            D = rt_dotProduct(&distance,&distance) - B*B;
             radius2 = (s->radius)*(s->radius);
-            D = B*B - rt_dotProduct(&(ray->direction),&(ray->direction)) * (rt_dotProduct(&distance,&distance) - radius2);
             printf("[DEBUG] D = %f, B = %f\n",D,B);
 
             /* No real roots, no intersection */
-            //if(D > radius2) return 0.0;
-            //D = sqrt(radius2-D);
-            if(D < 0.0) return 0.0;
-            else D = sqrt(D);
-            printf("[DEBUG] t0 = %f, t1 = %1f\n",
-                (-B-D)/rt_dotProduct(&(ray->direction),&(ray->direction)),
-                (-B+D)/rt_dotProduct(&(ray->direction),&(ray->direction)));
+            if(D > radius2) return 0.0;
+            D = sqrt(radius2-D);
 
             /* Smaller root first */
-            t = (- B - D)/rt_dotProduct(&(ray->direction),&(ray->direction));
-            if(t < 0.0) t = (-B + D)/rt_dotProduct(&(ray->direction),&(ray->direction));
+            t = B - D;
+            if(t<0.0) t = B + D;
             if(t < 0.0) return 0.0;
 
             /* t is not too close or behind the viewpoint */
