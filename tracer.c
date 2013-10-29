@@ -429,9 +429,9 @@ double rt_illumination(Vector *pointHit, Vector *normalHit)
         }
 
         if(0 == inShadow)
-            brightness += scene.lights[i].intensity;
+            brightness += rt_dotProduct(&shadowRay.direction,normalHit) * scene.lights[i].intensity;
     }
-
+    if(brightness > 1.0) brightness = 1.0;
     return brightness;
 }
 
@@ -441,6 +441,7 @@ Pixel rt_trace(Ray *ray, int recursions)
     Object *object;
     Vector pointHit, normalHit;
     double minDist, t; int i,j;
+    int r,g,b;
 
     object = NULL;
     minDist = INFINITY;
@@ -479,7 +480,11 @@ Pixel rt_trace(Ray *ray, int recursions)
 
         /* Placeholder for color support */
         if(brightness > 0)
-            return gfx_createPixel(255,0,0);
+        {
+            g = b = 0;
+            r = (int) 255*brightness+0.5;
+            return gfx_createPixel(r,g,b);
+        }
     }
     
     /* No object was hit */
