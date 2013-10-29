@@ -28,21 +28,21 @@ main(int argc, char **argv)
     atexit(cleanup);
 
     rt_setResolution(640,480);
-    rt_setCameraPosition(0,0,-80);
+    rt_setCameraPosition(0,0,-100);
     rt_setCameraDirection(0,0,1);
     rt_setLightCount(2);
-    rt_setObjectCount(1);
+    rt_setObjectCount(2);
 
     Light l1;
-    l1.position.x = -60.0;
-    l1.position.y = -60.0;
-    l1.position.z = 0.0;
+    l1.position.x = -140.0;
+    l1.position.y = -140.0;
+    l1.position.z = -140.0;
     l1.intensity = 0.80;
 
     Light l2;
-    l2.position.x = 60.0;
-    l2.position.y = 60.0;
-    l2.position.z = 0.0;
+    l2.position.x = 90.0;
+    l2.position.y = 90.0;
+    l2.position.z = -20.0;
     l2.intensity = 0.80;
 
     Object o1;
@@ -50,22 +50,23 @@ main(int argc, char **argv)
     s1.position.x = 0.0;
     s1.position.y = 0.0;
     s1.position.z = 0.0;
-    s1.radius = 30.0;
+    s1.radius = 80.0;
     o1.type = t_sphere;
     o1.object = &s1;
 
-   // Object o2;
-   // Sphere s2;
-   // s2.position.x = 0.0;
-   // s2.position.y = 0.0;
-   // s2.position.z = 0.0;
-   // s2.radius = 30.0;
-   // o2.type = t_sphere;
-   // o2.object = &s;
+    Object o2;
+    Sphere s2;
+    s2.position.x = -90.0;
+    s2.position.y = -90.0;
+    s2.position.z = -90.0;
+    s2.radius = 7.0;
+    o2.type = t_sphere;
+    o2.object = &s2;
 
     rt_setLight(0,&l1);
     rt_setLight(1,&l2);
     rt_setObject(0,&o1);
+    rt_setObject(1,&o2);
     rt_printScene();
 
     Pixel p[640*480];
