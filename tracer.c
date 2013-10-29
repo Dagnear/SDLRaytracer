@@ -485,3 +485,13 @@ Pixel rt_trace(Ray *ray, int recursions)
     /* No object was hit */
     return gfx_createPixel(0,0,0);
 }
+
+/* 
+ * Trace for each pixel and store resulting
+ * color in an array
+ * */
+void rt_renderScene(Pixel *pixels)
+{
+    int x,y;
+    Ray primaryRay;
+}
