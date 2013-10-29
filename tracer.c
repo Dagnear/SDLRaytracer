@@ -435,15 +435,15 @@ double rt_illumination(Vector *pointHit, Vector *normalHit)
 }
 
 /* Trace a color for single ray */
-Pixel rt_trace(Ray *ray, int recursions)
+Color rt_trace(Ray *ray, int recursions)
 {
-    Object *object;
+    Object *object; Color c;
     Vector pointHit, normalHit;
     double minDist, t; int i,j;
-    int r,g,b;
 
     object = NULL;
     minDist = INFINITY;
+    c.r = 0; c.g = 0; c.b = 0;
     
     /* Find out closest intersection, if any */
     for(i=0;i<scene.objectCount;i++)
@@ -478,9 +478,28 @@ Pixel rt_trace(Ray *ray, int recursions)
        // printf("[DEBUG] Got brightness %f\n",brightness);
         
         /* Object is reflective or transparent */
-        if(object->reflection > 0 || object->transparency > 0)
+        if((object->reflection > 0 || object->transparency > 0) && (recursions > 0))
         {
+            Color reflectionColor,refractionColor;
+            Ray reflectionRay, refractionRay;
 
+            if(object->reflection > 0)
+            {
+                reflectionRay.position.x = pointHit.x + normalHit.x * BIAS;
+                reflectionRay.position.y = pointHit.y + normalHit.y * BIAS;
+                reflectionRay.position.z = pointHit.z + normalHit.z * BIAS;
+
+                rt_vectorMultiply(&normalHit,2,&(reflectionRay.direction));
+                rt_vectorAdd(&(reflectionRay.direction),&(ray->direction),&(reflectionRay.direction));
+                rt_vectorSubstract(&(ray->direction),&(reflectionRay.direction),&(reflectionRay.direction));
+
+
+                reflectionColor = rt_trace(&reflectionRay, recursions-1);
+            }
+            if(object->transparency > 0)
+            {
+                //TODO
+            }
         }
         /* Diffuse object */
         else
@@ -488,25 +507,25 @@ Pixel rt_trace(Ray *ray, int recursions)
             /* Calculate color */
             if(brightness > 0)
             {
-                r = object->color.r;
-                g = object->color.g;
-                b = object->color.b;
+                c.r = object->color.r;
+                c.g = object->color.g;
+                c.b = object->color.b;
                 
-                r = (int) r*brightness+0.5;
-                g = (int) g*brightness+0.5;
-                b = (int) b*brightness+0.5;
+                c.r = (int) c.r*brightness+0.5;
+                c.g = (int) c.g*brightness+0.5;
+                c.b = (int) c.b*brightness+0.5;
 
                 printf("\tcolor (%d,%d,%d) to (%d,%d,%d)\n",
                     object->color.r,object->color.g,object->color.b,
-                    r,g,b);
+                    c.r,c.g,c.b);
 
-                return gfx_createPixel(r,g,b);
+                return c;
             }
         }
     }
     
     /* No object was hit */
-    return gfx_createPixel(0,0,0);
+    return c;
 }
 
 /* 
@@ -515,7 +534,7 @@ Pixel rt_trace(Ray *ray, int recursions)
  * */
 void rt_renderScene(Pixel *pixels)
 {
-    int x,y;
+    int x,y; Color c;
     Ray primaryRay;
 
     primaryRay.direction.x = scene.cameraDirection.x;
@@ -530,7 +549,8 @@ void rt_renderScene(Pixel *pixels)
         primaryRay.position.x = scene.cameraPosition.x - (scene.screenX/2);
         for(x=0;x<scene.screenX;x++)
         {
-            pixels[y*scene.screenX+x] = rt_trace(&primaryRay,MAXRECURSION);
+            c = rt_trace(&primaryRay,MAXRECURSION);
+            pixels[y*scene.screenX+x] = gfx_createPixel(c.r,c.g,c.b);
             primaryRay.position.x += 1;
         }
         primaryRay.position.y += 1;

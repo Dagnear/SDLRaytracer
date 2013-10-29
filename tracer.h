@@ -91,5 +91,5 @@ double rt_vectorLength(Vector *v);
 void rt_surfaceNormal(Object *object, Vector *pointHit, Vector *normalHit);
 double rt_intersect(Ray *ray,Object *object);
 double rt_illumination(Vector *pointHit, Vector *normalHit);
-Pixel rt_trace(Ray *ray, int recursions);
+Color rt_trace(Ray *ray, int recursions);
 void rt_renderScene(Pixel *pixels);
