@@ -494,4 +494,22 @@ void rt_renderScene(Pixel *pixels)
 {
     int x,y;
     Ray primaryRay;
+
+    primaryRay.direction.x = scene.cameraDirection.x;
+    primaryRay.direction.y = scene.cameraDirection.y;
+    primaryRay.direction.z = scene.cameraDirection.z;
+
+    primaryRay.position.y = scene.cameraPosition.y - (scene.screenY/2);
+    primaryRay.position.z = scene.cameraPosition.z;
+
+    for(y=0;y<scene.screenY;y++)
+    {
+        primaryRay.position.x = scene.cameraPosition.x - (scene.screenX/2);
+        for(x=0;x<scene.screenX;x++)
+        {
+            pixels[y*scene.screenX+x] = rt_trace(&primaryRay,MAXRECURSION);
+            primaryRay.position.x += 1;
+        }
+        primaryRay.position.y += 1;
+    }
 }
