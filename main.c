@@ -30,8 +30,8 @@ main(int argc, char **argv)
     rt_setResolution(640,480);
     rt_setCameraPosition(0,0,-100);
     rt_setCameraDirection(0,0,1);
-    rt_setLightCount(2);
-    rt_setObjectCount(3);
+    rt_setLightCount(3);
+    rt_setObjectCount(4);
 
     Light l1;
     l1.position.x = 160.0;
@@ -45,6 +45,12 @@ main(int argc, char **argv)
     l2.position.z = -290.0;
     l2.intensity = 0.80;
 
+    Light l3;
+    l3.position.x = 0.0;
+    l3.position.y = 0.0;
+    l3.position.z = -500.0;
+    l3.intensity = 0.0;
+
     Object o1;
     Sphere s1;
     s1.position.x = 60.0;
@@ -56,7 +62,7 @@ main(int argc, char **argv)
     o1.color.r = 0;
     o1.color.g = 0;
     o1.color.b = 200;
-    o1.reflection = 0.8;
+    o1.reflection = 0.5;
     o1.transparency = 0;
 
     Object o2;
@@ -70,7 +76,7 @@ main(int argc, char **argv)
     o2.color.r = 200;
     o2.color.g = 0;
     o2.color.b = 0;
-    o2.reflection = 0;
+    o2.reflection = 0.5;
     o2.transparency = 0;
 
     Object o3;
@@ -84,14 +90,30 @@ main(int argc, char **argv)
     o3.color.r = 0;
     o3.color.g = 100;
     o3.color.b = 0;
-    o3.reflection = 0;
+    o3.reflection = 0.5;
     o3.transparency = 0;
+
+    Object o4;
+    Sphere s4;
+    s4.position.x = -100.0;
+    s4.position.y = -100.0;
+    s4.position.z = 500.0;
+    s4.radius = 200.0;
+    o4.type = t_plane;
+    o4.object = &s4;
+    o4.color.r = 200;
+    o4.color.g = 200;
+    o4.color.b = 0;
+    o4.reflection = 0.0;
+    o4.transparency = 0;
 
     rt_setLight(0,&l1);
     rt_setLight(1,&l2);
+    rt_setLight(2,&l3);
     rt_setObject(0,&o1);
     rt_setObject(1,&o2);
     rt_setObject(2,&o3);
+    rt_setObject(3,&o4);
     rt_printScene();
 
     Pixel p[640*480];

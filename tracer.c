@@ -497,7 +497,7 @@ Color rt_trace(Ray *ray, int recursions)
         if((object->reflection > 0 || object->transparency > 0) && (recursions > 0))
         {
             Color reflectionColor, refractionColor, diffuseColor;
-            Ray reflectionRay, refractionRay;
+            Ray reflectionRay, refractionRay; double reflet;
 
             if(object->reflection > 0)
             {
@@ -508,10 +508,15 @@ Color rt_trace(Ray *ray, int recursions)
                 /* FIX THIS */
                 /* FIX THIS */
                 /* FIX THIS */
-                rt_vectorMultiply(&normalHit,2,&(reflectionRay.direction));
-                rt_vectorAdd(&(reflectionRay.direction),&(ray->direction),&(reflectionRay.direction));
-                rt_vectorAdd(&(reflectionRay.direction),&(ray->direction),&(reflectionRay.direction));
-                rt_vectorSubstract(&(pointHit),&(reflectionRay.direction),&(reflectionRay.direction));
+                //rt_vectorMultiply(&normalHit,2,&(reflectionRay.direction));
+                //rt_vectorAdd(&(reflectionRay.direction),&(ray->direction),&(reflectionRay.direction));
+                //rt_vectorAdd(&(reflectionRay.direction),&(ray->direction),&(reflectionRay.direction));
+                //rt_vectorSubstract(&(pointHit),&(reflectionRay.direction),&(reflectionRay.direction));
+
+                reflet = rt_dotProduct(&(ray->direction),&normalHit); 
+                reflet *= 2.0;
+                rt_vectorMultiply(&normalHit,reflet,&(reflectionRay.direction));
+                rt_vectorSubstract(&(ray->direction),&(reflectionRay.direction),&(reflectionRay.direction));
 
                 reflectionColor = rt_trace(&reflectionRay, recursions-1);
 
