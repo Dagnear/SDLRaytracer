@@ -98,7 +98,7 @@ rt_printScene()
     printf("normalize(v1) = (%f,%f,%f)\n",v3.x,v3.y,v3.z);
 
     printf("\n-=-=-=-Intersection testing-=-=-=-\n");
-    Ray r; Object o; Sphere s; Vector n, p; double intersects;
+    Ray r; Object o; Sphere s; double intersects;
     r.position.x = -10.0;     r.direction.x = 0.0; s.position.x = 0.0;
     r.position.y = 5.0;    r.direction.y = 0.0; s.position.y = 0.0;
     r.position.z = -80.0;   r.direction.z = 1.0; s.position.z = 0.0;
@@ -372,6 +372,23 @@ double rt_intersect(Ray *ray,Object *object)
             return t;
 
         } break;
+        case t_plane:
+        {
+            Plane *p = (Plane *)object->object;
+            
+            Vector result; float t;
+            /* Dot product for angle
+             * Both negative and positive solutions accepted?
+             * (x,y,z) plane
+             * (x,y,z) (dx,dy,dz) ray
+             * plane = ray.position + ray.direction * N
+             * (x+dx*t,y+dy*t,z+dz*t)
+             * plane - ray.position = ray.direction * N
+             */
+            rt_vectorSubstract(&(p->position),&(ray->position),&result);
+            t = rt_dotProduct(&result,&(ray->direction)); 
+        }    
+        break;
         default:
             printf("[WARNING] Tried to calculate intersection for unkown object type: %d\n",object->type);
         break;
@@ -386,7 +403,7 @@ double rt_intersect(Ray *ray,Object *object)
 double rt_illumination(Vector *pointHit, Vector *normalHit)
 {
     Ray shadowRay; int inShadow, i,j;
-    double brightness, lightDistance, t, dot;
+    double brightness, lightDistance, t;
     Vector light, bias;
 
     shadowRay.position.x = pointHit->x;
@@ -439,7 +456,7 @@ Color rt_trace(Ray *ray, int recursions)
 {
     Object *object; Color c;
     Vector pointHit, normalHit;
-    double minDist, t; int i,j;
+    double minDist, t; int i;
 
     object = NULL;
     minDist = INFINITY;
@@ -488,9 +505,13 @@ Color rt_trace(Ray *ray, int recursions)
                 reflectionRay.position.y = pointHit.y + normalHit.y * BIAS;
                 reflectionRay.position.z = pointHit.z + normalHit.z * BIAS;
 
+                /* FIX THIS */
+                /* FIX THIS */
+                /* FIX THIS */
                 rt_vectorMultiply(&normalHit,2,&(reflectionRay.direction));
                 rt_vectorAdd(&(reflectionRay.direction),&(ray->direction),&(reflectionRay.direction));
-                rt_vectorSubstract(&(reflectionRay.direction),&(ray->direction),&(reflectionRay.direction));
+                rt_vectorAdd(&(reflectionRay.direction),&(ray->direction),&(reflectionRay.direction));
+                rt_vectorSubstract(&(pointHit),&(reflectionRay.direction),&(reflectionRay.direction));
 
                 reflectionColor = rt_trace(&reflectionRay, recursions-1);
 
