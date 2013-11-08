@@ -53,6 +53,11 @@ typedef struct
     double radius;
 } Sphere;
 
+typedef struct
+{
+    Vector position;
+} Plane;
+
 /* Components of a scene */
 typedef struct
 {
