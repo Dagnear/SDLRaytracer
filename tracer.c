@@ -375,18 +375,7 @@ double rt_intersect(Ray *ray,Object *object)
         case t_plane:
         {
             Plane *p = (Plane *)object->object;
-            
             Vector result; float t;
-            /* Dot product for angle
-             * Both negative and positive solutions accepted?
-             * (x,y,z) plane
-             * (x,y,z) (dx,dy,dz) ray
-             * plane = ray.position + ray.direction * N
-             * (x+dx*t,y+dy*t,z+dz*t)
-             * plane - ray.position = ray.direction * N
-             */
-            rt_vectorSubstract(&(p->position),&(ray->position),&result);
-            t = rt_dotProduct(&result,&(ray->direction)); 
         }    
         break;
         default:
