@@ -505,14 +505,6 @@ Color rt_trace(Ray *ray, int recursions)
                 reflectionRay.position.y = pointHit.y + normalHit.y * BIAS;
                 reflectionRay.position.z = pointHit.z + normalHit.z * BIAS;
 
-                /* FIX THIS */
-                /* FIX THIS */
-                /* FIX THIS */
-                //rt_vectorMultiply(&normalHit,2,&(reflectionRay.direction));
-                //rt_vectorAdd(&(reflectionRay.direction),&(ray->direction),&(reflectionRay.direction));
-                //rt_vectorAdd(&(reflectionRay.direction),&(ray->direction),&(reflectionRay.direction));
-                //rt_vectorSubstract(&(pointHit),&(reflectionRay.direction),&(reflectionRay.direction));
-
                 reflet = rt_dotProduct(&(ray->direction),&normalHit); 
                 reflet *= 2.0;
                 rt_vectorMultiply(&normalHit,reflet,&(reflectionRay.direction));
@@ -540,11 +532,11 @@ Color rt_trace(Ray *ray, int recursions)
                 c.g += diffuseColor.g;
                 c.b += diffuseColor.b;
 
-                if(reflectionColor.r + reflectionColor.g + reflectionColor.b > 60)
-                    printf("[DEBUG] Reflection Color(%d,%d,%d) Diffuse Color(%d,%d,%d)\n\tFinal color: (%d,%d,%d) Brightness : %f\n",
-                    reflectionColor.r,reflectionColor.g,reflectionColor.b,
-                    diffuseColor.r,diffuseColor.g,diffuseColor.b,
-                    c.r,c.g,c.b,brightness);
+                //if(reflectionColor.r + reflectionColor.g + reflectionColor.b > 60)
+                    //printf("[DEBUG] Reflection Color(%d,%d,%d) Diffuse Color(%d,%d,%d)\n\tFinal color: (%d,%d,%d) Brightness : %f\n",
+                    //reflectionColor.r,reflectionColor.g,reflectionColor.b,
+                    //diffuseColor.r,diffuseColor.g,diffuseColor.b,
+                    //c.r,c.g,c.b,brightness);
             }
         }
         /* Diffuse object */
