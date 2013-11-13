@@ -55,7 +55,10 @@ typedef struct
 
 typedef struct
 {
-    Vector plane;
+    //Distance from origo
+    Vector position;
+    //Orientation
+    Vector normal;
 } Plane;
 
 /* Components of a scene */
