@@ -253,6 +253,8 @@ void rt_setObject(int num, Object *obj)
                 Plane *p = (Plane *)obj->object;
                 rt_vectorNormalize(&(p->normal),&(p->normal));
             } break;
+            default:
+            break;
         }
     }
     else
@@ -334,8 +336,12 @@ void rt_surfaceNormal(Object *object, Vector *pointHit, Vector *normalHit)
             rt_vectorNormalize(normalHit,normalHit);
         } break;
         case t_plane:
-            //printf("[WARNING] rt_surfaceNormal is not implemented for planes.\n");
-        break;
+        {
+            Plane *p = (Plane *)object->object;
+            normalHit->x = p->normal.x;
+            normalHit->y = p->normal.y;
+            normalHit->z = p->normal.z;
+        } break;
         default:
             printf("[WARNING] Tried to calculate surface normal of unkown object type: %d\n",object->type);
         break;
@@ -409,7 +415,7 @@ double rt_intersect(Ray *ray,Object *object)
            // printf("[DEBUG] Plane pos(%f,%f,%f) n(%f,%f,%f)\n",
            //     p->position.x,p->position.y,p->position.z,
            //     p->normal.x,p->normal.y,p->normal.z);
-           // printf("\tintersection d = %f\n",d);
+            printf("[DEBUG] Plane intersection d = %f\n",d);
             return d;
 
         }    
@@ -580,7 +586,8 @@ Color rt_trace(Ray *ray, int recursions)
             }
         }
     }
-    
+    if(c.r + c.g + c.b > 0)
+        printf("RGB(%d,%d,%d)\n",c.r,c.g,c.b);    
     return c;
 }
 
