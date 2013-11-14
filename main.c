@@ -94,16 +94,18 @@ main(int argc, char **argv)
     o3.transparency = 0;
 
     Object o4;
-    Sphere s4;
-    s4.position.x = -100.0;
-    s4.position.y = -100.0;
-    s4.position.z = 500.0;
-    s4.radius = 200.0;
+    Plane p1;
+    p1.position.x = 0.0;
+    p1.position.y = 0.0;
+    p1.position.z = 500.0;
+    p1.normal.x = 0.0;
+    p1.normal.y = 1.0;
+    p1.normal.z = 0.0;
     o4.type = t_plane;
-    o4.object = &s4;
-    o4.color.r = 200;
-    o4.color.g = 200;
-    o4.color.b = 0;
+    o4.object = &p1;
+    o4.color.r = 0;
+    o4.color.g = 0;
+    o4.color.b = 200;
     o4.reflection = 0.0;
     o4.transparency = 0;
 
