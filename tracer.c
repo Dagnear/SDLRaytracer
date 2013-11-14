@@ -244,6 +244,16 @@ void rt_setObject(int num, Object *obj)
         scene.objects[num].color.b = obj->color.b;
         scene.objects[num].reflection = obj->reflection;
         scene.objects[num].transparency = obj->transparency;
+
+        //If object needs special handler
+        switch(obj->type)
+        {
+            case t_plane:
+            {
+                Plane *p = (Plane *)obj->object;
+                rt_vectorNormalize(&(p->normal),&(p->normal));
+            } break;
+        }
     }
     else
     {
@@ -323,6 +333,9 @@ void rt_surfaceNormal(Object *object, Vector *pointHit, Vector *normalHit)
             rt_vectorSubstract(pointHit,&(s->position),normalHit);
             rt_vectorNormalize(normalHit,normalHit);
         } break;
+        case t_plane:
+            //printf("[WARNING] rt_surfaceNormal is not implemented for planes.\n");
+        break;
         default:
             printf("[WARNING] Tried to calculate surface normal of unkown object type: %d\n",object->type);
         break;
@@ -365,7 +378,7 @@ double rt_intersect(Ray *ray,Object *object)
 
             /* Smaller root first */
             t = B - D;
-            if(t<0.0) t = B + D;
+            if(t < 0.0) t = B + D;
             if(t < 0.0) return 0.0;
 
             /* t is not too close or behind the viewpoint */
@@ -374,8 +387,31 @@ double rt_intersect(Ray *ray,Object *object)
         } break;
         case t_plane:
         {
-            Plane *p = (Plane *)object->object;
-            Vector result; float t;
+            Plane *p = (Plane *) object->object;
+            Vector normal, position; double dotA,dotB, d; //ebin dota
+            
+            /* Dot product of plane normal and ray direction */
+            dotA = rt_dotProduct(&(ray->direction),&(p->normal));
+
+            /* Plane is perpendicular infinite or no intersections */
+            if(0.0 == dotA)
+                return 0.0;
+
+            rt_vectorSubstract(&(p->position),&(ray->position),&(position));
+            dotB = rt_dotProduct(&position,&(p->normal));
+            
+            d = dotB/dotA;
+
+            /* Intersection is behind viewpoint */
+            if(d < 0.0)
+                return 0.0;
+            
+           // printf("[DEBUG] Plane pos(%f,%f,%f) n(%f,%f,%f)\n",
+           //     p->position.x,p->position.y,p->position.z,
+           //     p->normal.x,p->normal.y,p->normal.z);
+           // printf("\tintersection d = %f\n",d);
+            return d;
+
         }    
         break;
         default:
