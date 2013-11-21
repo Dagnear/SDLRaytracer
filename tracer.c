@@ -9,7 +9,8 @@
 
 Scene scene;
 
-/* Debug function */
+/* Debug function 
+ * prints out results of tests */
 void
 rt_printScene()
 {
@@ -122,6 +123,10 @@ rt_printScene()
     printf("\n_______END OF DEBUG_______\n");
 }
 
+/* 
+ * Initializes variable with 
+ * zero or NULL values
+ */
 void
 rt_initScene()
 {
@@ -142,6 +147,10 @@ rt_initScene()
     scene.objectCount = 0; scene.objects = NULL;
 }
 
+/*
+ * Set resultin resolution of the scene
+ * "render"
+ */
 void
 rt_setResolution(int w, int h)
 {
@@ -149,6 +158,9 @@ rt_setResolution(int w, int h)
     scene.screenY = h;
 }
 
+/*
+ * Sets camera (viewpoin) location
+ */
 void
 rt_setCameraPosition(int x, int y, int z)
 {
@@ -157,6 +169,10 @@ rt_setCameraPosition(int x, int y, int z)
     scene.cameraPosition.z = z;
 }
 
+/*
+ * Sets direction of the camera
+ * (to which direction we are looking)
+ */
 void
 rt_setCameraDirection(int x, int y, int z)
 {
@@ -168,6 +184,10 @@ rt_setCameraDirection(int x, int y, int z)
     rt_vectorNormalize(&scene.cameraDirection,&scene.cameraDirection);
 }
 
+/*
+ * Allocates enough space for specified amount
+ * of lights in the scene
+ */
 void rt_setLightCount(int count)
 {
     scene.lightCount = count; 
@@ -178,6 +198,10 @@ void rt_setLightCount(int count)
     scene.lights = (Light *)malloc(sizeof(Light)*count);
 }
 
+/*
+ * Allocates enough space for specified amount of
+ * objects in the scene
+ */
 void rt_setObjectCount(int count)
 {
     int i;
@@ -199,6 +223,13 @@ void rt_setObjectCount(int count)
     }
 }
 
+/*
+ * Frees space allocated for objects and lights
+ *
+ * TODO: After implementing placement of the objects
+ * add free routine. Lights are always placed on
+ * stack (for now).
+ */
 void rt_cleanup()
 {
     //int i;
@@ -218,6 +249,10 @@ void rt_cleanup()
     }
 }
 
+/*
+ * Copies properties from light pointer
+ * to specified light in scene. In stack.
+ */
 void rt_setLight(int num, Light *light)
 {
     if(scene.lightCount > num)
@@ -233,6 +268,13 @@ void rt_setLight(int num, Light *light)
     }
 }
 
+/*
+ * Copies properties of the object to corresponding
+ * object in stack.
+ *
+ * TODO: Should there be special handler for different
+ * shapes or should they be handled otherwise?
+ */
 void rt_setObject(int num, Object *obj)
 {
     if(scene.objectCount > num)
@@ -264,7 +306,8 @@ void rt_setObject(int num, Object *obj)
 }
 
 /*
- * Vector math functions
+ * Vector math function
+ * Substract v1 from v2 and store in result
  */
 void rt_vectorSubstract(Vector *v1, Vector *v2, Vector *result)
 {
@@ -273,6 +316,10 @@ void rt_vectorSubstract(Vector *v1, Vector *v2, Vector *result)
     result->z = (v1->z) - (v2->z);
 }
 
+/*
+ * Vector math function
+ * Add v1 to v2 and store in result
+ */
 void rt_vectorAdd(Vector *v1, Vector *v2, Vector *result)
 {
     result->x = (v1->x) + (v2->x);
@@ -280,6 +327,10 @@ void rt_vectorAdd(Vector *v1, Vector *v2, Vector *result)
     result->z = (v1->z) + (v2->z);
 }
 
+/*
+ * Vector math function
+ * Multiply v1 with a scalar and store in result
+ */
 void rt_vectorMultiply(Vector *v1, double scalar, Vector *result)
 {
     result->x = v1->x*scalar;
@@ -287,29 +338,42 @@ void rt_vectorMultiply(Vector *v1, double scalar, Vector *result)
     result->z = v1->z*scalar;
 }
 
+/*
+ * Vector math function
+ * Return dot product of v1 and v2 as double
+ */
 double rt_dotProduct(Vector *v1, Vector *v2)
 {
-    double v1x,v1y,v1z,v2x,v2y,v2z;
+    double v1x,v1y,v1z,
+           v2x,v2y,v2z;
     double rx,ry,rz;
+
     v1x = v1->x; v1y = v1->y; v1z = v1->z;
     v2x = v2->x; v2y = v2->y; v2z = v2->z;
 
     rx = v1x*v2x; ry = v1y*v2y; rz = v1z*v2z;
-   // printf("[DEBUG] Dot product:\n");
-   // printf("\tv1x = %f, v2x = %f v1x*v2x = %f\n",v1x,v2x,rx);
-   // printf("\tv1y = %f, v2y = %f v1y*v2y = %f\n",v1y,v2y,ry);
-   // printf("\tv1z = %f, v2z = %f v1z*v2z = %f\n",v1z,v2z,rz);
-   // printf("\tv1x*v2x + v1y*v2y + v1z*v2z = %f\n",rz+ry+rz);
     return rx + ry + rz; 
 }
 
+/*
+ * Vector math function
+ * Return length of the vector v
+ * uses sqrt() from math.h
+ */
 double rt_vectorLength(Vector *v)
 {
     double x,y,z;
+
     x = v->x; y = v->y; z = v->z;
+
     return sqrt((x*x) + (y*y) + (z*z));
 }
 
+/*
+ * Vector math function
+ * Returns normalized vector of vector v
+ * in result. Uses rt_vectorLenght().
+ */
 void rt_vectorNormalize(Vector *v,Vector *result)
 {
     double len,x,y,z;
@@ -324,7 +388,13 @@ void rt_vectorNormalize(Vector *v,Vector *result)
     result->z = z;
 }
 
-/* Determine surface normal for object base on point hit */
+/*
+ * Determines surface normal for the object
+ * based on point hit
+ *
+ * TODO: plane normal is not necessarily correct way
+ * Maybe take this in account in intersection?
+ */
 void rt_surfaceNormal(Object *object, Vector *pointHit, Vector *normalHit)
 {
     switch(object->type)
@@ -349,7 +419,11 @@ void rt_surfaceNormal(Object *object, Vector *pointHit, Vector *normalHit)
 }
 
 /*
- * Determine intersection scalar with object if any
+ * Determine if intersection exists for the ray and
+ * object. Returns 0 if no intersection or intersection
+ * is behind the viewpoint. Returns scalar to multiply
+ * ray direction vector to get to intersection point
+ * otherwise.
  */
 double rt_intersect(Ray *ray,Object *object)
 {
@@ -369,14 +443,11 @@ double rt_intersect(Ray *ray,Object *object)
 
             B = rt_dotProduct(&(ray->direction),&distance);
             
-           // printf("[DEBUG] Distance (%f,%f,%f) RayDirection dot Distance = %f\n",
-           //     distance.x,distance.y,distance.z,B);
             /* Ray direction is not going towards origo */
             if(B < 0.0) return 0.0;
             
             D = rt_dotProduct(&distance,&distance) - B*B;
             radius2 = (s->radius)*(s->radius);
-           // printf("[DEBUG] D = %f, B = %f\n",D,B);
 
             /* No real roots, no intersection */
             if(D > radius2) return 0.0;
@@ -412,10 +483,6 @@ double rt_intersect(Ray *ray,Object *object)
             if(d < 0.0)
                 return 0.0;
             
-           // printf("[DEBUG] Plane pos(%f,%f,%f) n(%f,%f,%f)\n",
-           //     p->position.x,p->position.y,p->position.z,
-           //     p->normal.x,p->normal.y,p->normal.z);
-            printf("[DEBUG] Plane intersection d = %f\n",d);
             return d;
 
         }    
@@ -431,6 +498,15 @@ double rt_intersect(Ray *ray,Object *object)
     return 0.0;    
 }
 
+/*
+ * Returns strength of light on the point depending
+ * on angle between visible ligths and the point.
+ * Value cannot exceed 1.0
+ *
+ * TODO: Not very realistic model, needs improvement.
+ * Works only for point lights. Add support for illuminating
+ * objects. Spherical lights?
+ */
 double rt_illumination(Vector *pointHit, Vector *normalHit)
 {
     Ray shadowRay; int inShadow, i,j;
@@ -451,28 +527,17 @@ double rt_illumination(Vector *pointHit, Vector *normalHit)
         light.x = scene.lights[i].position.x;
         light.y = scene.lights[i].position.y;
         light.z = scene.lights[i].position.z;
-        //printf("[DEBUG] Light position (%f,%f,%f)\n",light.x,light.y,light.z);
 
         rt_vectorSubstract(&(light),&(shadowRay.position),&(shadowRay.direction));
         lightDistance =  rt_vectorLength(&(shadowRay.direction));
         rt_vectorNormalize(&(shadowRay.direction),&(shadowRay.direction));
 
-       // printf("[DEBUG] Shadow ray position(%f,%f,%f) direction(%f,%f,%f)\n",
-       //     shadowRay.position.x,shadowRay.position.y,shadowRay.position.z,
-       //     shadowRay.direction.x,shadowRay.direction.y,shadowRay.direction.z);
-       // printf("\tLight distance %f\n",lightDistance);
-       // dot = rt_dotProduct(normalHit,&(shadowRay.direction));
-       // printf("\tDot = %f\n",dot);
-
         inShadow = 0;
         for(j=0;j<scene.objectCount;j++)
         {
-            //printf("[DEBUG] Intersection with objects[%d]\n",j);
             t = rt_intersect(&shadowRay,&(scene.objects[j])); 
             if(t > 0.0 && t < lightDistance)
                 inShadow = 1;
-
-           // printf("\tt=%f inShadow=%d\n",t,inShadow);
         }
 
         if(0 == inShadow)
@@ -482,7 +547,12 @@ double rt_illumination(Vector *pointHit, Vector *normalHit)
     return brightness;
 }
 
-/* Trace a color for single ray */
+/*
+ * Trace a color for single ray
+ * Color may be affected by other rays.
+ * 
+ * TODO: refraction support. fresnel equation
+ */
 Color rt_trace(Ray *ray, int recursions)
 {
     Object *object; Color c;
@@ -501,10 +571,9 @@ Color rt_trace(Ray *ray, int recursions)
         {
             minDist = t;
             object = &scene.objects[i];
-            //printf("[DEBUG] Minimum distance updated to: %f\n",minDist);
         }
     }
-    //if(NULL == object) printf("[DEBUG] No object intersects\n");
+
     /* If there was an intersection */
     if(NULL != object)
     {
@@ -517,12 +586,11 @@ Color rt_trace(Ray *ray, int recursions)
         /* Calculate normal hit */
         rt_surfaceNormal(object,&pointHit,&normalHit);
 
-       // printf("[DEBUG] Point hit(%f,%f,%f) Normal hit(%f,%f,%f)\n",
-       //     pointHit.x,pointHit.y,pointHit.z,
-       //     normalHit.x,normalHit.y,normalHit.z);
-
+        /* Return light intensity on the intersection point
+         * based on angles between visible light sources
+         * Not very realistic.
+         */
         brightness = rt_illumination(&pointHit,&normalHit);
-       // printf("[DEBUG] Got brightness %f\n",brightness);
         
         /* Object is reflective or transparent */
         if((object->reflection > 0 || object->transparency > 0) && (recursions > 0))
@@ -562,12 +630,6 @@ Color rt_trace(Ray *ray, int recursions)
                 c.r += diffuseColor.r;
                 c.g += diffuseColor.g;
                 c.b += diffuseColor.b;
-
-                //if(reflectionColor.r + reflectionColor.g + reflectionColor.b > 60)
-                    //printf("[DEBUG] Reflection Color(%d,%d,%d) Diffuse Color(%d,%d,%d)\n\tFinal color: (%d,%d,%d) Brightness : %f\n",
-                    //reflectionColor.r,reflectionColor.g,reflectionColor.b,
-                    //diffuseColor.r,diffuseColor.g,diffuseColor.b,
-                    //c.r,c.g,c.b,brightness);
             }
         }
         /* Diffuse object */
@@ -586,15 +648,13 @@ Color rt_trace(Ray *ray, int recursions)
             }
         }
     }
-    if(c.r + c.g + c.b > 0)
-        printf("RGB(%d,%d,%d)\n",c.r,c.g,c.b);    
     return c;
 }
 
 /* 
- * Trace for each pixel and store resulting
+ * Trace color for each pixel and store resulting
  * color in an array
- * */
+ */
 void rt_renderScene(Pixel *pixels)
 {
     int x,y; Color c;
