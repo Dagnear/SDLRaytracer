@@ -67,6 +67,8 @@ typedef struct
     int screenX;
     int screenY;
 
+    int fov;
+
     Vector cameraPosition;
     Vector cameraDirection;
 
@@ -88,6 +90,7 @@ void rt_cleanup();
 void rt_setLight(int num, Light *light);
 void rt_setObject(int num, Object *obj);
 void rt_setResolution(int w, int h);
+void rt_setFov(int fov);
 
 void rt_vectorSubstract(Vector *v1, Vector *v2, Vector *result);
 void rt_vectorAdd(Vector *v1, Vector *v2, Vector *result);

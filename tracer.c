@@ -17,6 +17,7 @@ rt_printScene()
     int i;
     printf("-=-=-=-Scene-=-=-=-\n");
     printf("Resolution: %dx%d\n",scene.screenX,scene.screenY);
+    printf("Field of View: %d\n",scene.fov);
     printf("Camera position: %f,%f,%f\n",
         scene.cameraPosition.x,
         scene.cameraPosition.y,
@@ -133,6 +134,8 @@ rt_initScene()
     scene.screenX = 0;
     scene.screenY = 0;
 
+    scene.fov = 0;
+
     scene.cameraPosition.x = 0;
     scene.cameraPosition.y = 0;
     scene.cameraPosition.z = 0;
@@ -156,6 +159,16 @@ rt_setResolution(int w, int h)
 {
     scene.screenX = w;
     scene.screenY = h;
+}
+
+/*
+ * Sets field of view angle
+ * in degrees
+ */
+void
+rt_setFov(int fov)
+{
+    scene.fov = fov;
 }
 
 /*
@@ -484,7 +497,6 @@ double rt_intersect(Ray *ray,Object *object)
                 return 0.0;
             
             return d;
-
         }    
         break;
         default:
@@ -654,6 +666,8 @@ Color rt_trace(Ray *ray, int recursions)
 /* 
  * Trace color for each pixel and store resulting
  * color in an array
+ *
+ * TODO: Add fov calculation
  */
 void rt_renderScene(Pixel *pixels)
 {
