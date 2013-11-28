@@ -2,6 +2,7 @@
 #include "libs.h"
 #include "tracer.h"
 #include "gfx.h"
+#include "mapping.h"
 
 #define EPSILON 0.01
 #define BIAS 0.0001
@@ -120,6 +121,16 @@ rt_printScene()
 
     printf("\n-=-=-=-Trace testing-=-=-=-\n");
     rt_trace(&r,MAXRECURSION);
+
+    printf("\n-=-=-=-Mapping test-=-=-=-\n");
+    double mapInput, mapMinIn, mapMinOut, mapMaxIn, mapMaxOut, mapResult;
+    mapInput = 48.228;
+    mapMinIn = 1.0; mapMaxIn = 2000.0;
+    mapMinOut = 0.0; mapMaxOut = 255.0;
+    
+    printf("Mapping %f from range[%f,%f] to range[%f,%f]\n",mapInput,mapMinIn,mapMaxIn,mapMinOut,mapMaxOut);
+    mapResult = rt_map(mapMinIn,mapMaxIn,mapMinOut,mapMaxOut,mapInput);
+    printf("\tResult = %f\n",mapResult);
 
     printf("\n_______END OF DEBUG_______\n");
 }
@@ -672,7 +683,10 @@ Color rt_trace(Ray *ray, int recursions)
 void rt_renderScene(Pixel *pixels)
 {
     int x,y; Color c;
+    double angle;
     Ray primaryRay;
+
+    /* Map fov to resolution -> angle for x and y */ 
 
     primaryRay.direction.x = scene.cameraDirection.x;
     primaryRay.direction.y = scene.cameraDirection.y;
