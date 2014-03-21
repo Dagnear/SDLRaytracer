@@ -1,6 +1,6 @@
 # Raytracer makefile
 CC = gcc
-LDFLAGS = -lSDL
+LDFLAGS = -lSDL -lm
 CFLAGS = -Wall -g
 
 SRC = main.c input.c gfx.c pixel.c tracer.c mapping.c
